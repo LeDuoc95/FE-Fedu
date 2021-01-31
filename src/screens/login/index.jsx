@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "components/header";
 import Footer from "components/footer";
+import { useDispatch, useSelector } from "react-redux";
 import {
   WrapperPage,
   WarrapperForm,
@@ -15,6 +16,7 @@ import {
   TagAStyle,
   RowStyle,
 } from "screens/style";
+import { addProductToWishlistAction } from "screens/login/action";
 
 const layout = {
   labelCol: {
@@ -26,8 +28,15 @@ const layout = {
 };
 
 const Login = () => {
+  const dispatch = useDispatch();
+
+  const actions = {
+    addProductToWishlistAction,
+  };
+
   const onFinish = (values) => {
     console.log("Success:", values);
+    dispatch(actions.addProductToWishlistAction(values));
   };
 
   const onFinishFailed = (errorInfo) => {

@@ -1,24 +1,21 @@
-// import { applyMiddleware, createStore } from "redux";
-// import { composeWithDevTools } from "redux-devtools-extension";
-// import { createHashHistory } from "history";
-// import { routerMiddleware } from "connected-react-router";
+import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { createBrowserHistory } from "history";
+import { routerMiddleware } from "connected-react-router";
+import logger from "redux-logger";
+import createSagaMiddleware from "redux-saga";
+import allReducers from "root/rootReducer";
+import allSaga from "root/rootSaga";
 
-// // import logger from "redux-logger";
-// import thunk from "redux-thunk";
-// import promise from "redux-promise-middleware";
-// import createRootReducer from "reducers";
+export const history = createBrowserHistory();
 
-// // export const history = createBrowserHistory();
-// export const history = createHashHistory({
-//   hashType: "noslash",
-//   getUserConfirmation: (message, callback) => callback(console.log("object")),
-// });
-// const middlewares = [];
-// // middlewares.push(thunk);
-// // middlewares.push(logger);
-// middlewares.push(promise);
-// middlewares.push(routerMiddleware(history));
+const middlewares = [];
+middlewares.push(routerMiddleware(history));
+middlewares.push(logger);
+const sagaMiddleware = createSagaMiddleware();
+middlewares.push(sagaMiddleware);
 
-// const middleware = composeWithDevTools(applyMiddleware(...middlewares));
-
-// export default createStore(createRootReducer(history), middleware);
+const middleware = composeWithDevTools(applyMiddleware(...middlewares));
+const store = createStore(allReducers(history), middleware);
+sagaMiddleware.run(allSaga);
+export default store;
