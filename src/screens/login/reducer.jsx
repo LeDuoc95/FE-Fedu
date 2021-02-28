@@ -1,16 +1,26 @@
 import { handleActions } from "redux-actions";
-import { addProductToWishlistAction } from "screens/login/action";
+import { loginSuccessAction } from "screens/login/action";
 
 const initialState = {
-  registerError: null,
+  name: null,
+  photo: "https://i.imgur.com/0jk1ek2.jpg",
+  username: null,
+  tel_mobile: null,
+  position: null,
 };
 
 export default handleActions(
   {
-    [addProductToWishlistAction]: (state, { payload }) => ({
-      ...state,
-      registerError: payload.registerError,
-    }),
+    [loginSuccessAction]: (state, { payload }) => {
+      return {
+        ...state,
+        name: payload.name,
+        username: payload.username,
+        photo: payload.photo,
+        tel_mobile: payload.tel_mobile,
+        position: payload.position,
+      };
+    },
   },
   initialState
 );

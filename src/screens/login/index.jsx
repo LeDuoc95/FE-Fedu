@@ -1,7 +1,18 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import Header from "components/header";
 import Footer from "components/footer";
 import { useDispatch, useSelector } from "react-redux";
+import { notification } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { loginAction } from "screens/login/action";
+import Loading from "components/loading";
+import {
+  errorAction,
+  refreshTokenAction,
+  loginWithAccessTokenAction,
+} from "components/action";
+
 import {
   WrapperPage,
   WarrapperForm,
@@ -16,7 +27,6 @@ import {
   TagAStyle,
   RowStyle,
 } from "screens/style";
-import { addProductToWishlistAction } from "screens/login/action";
 
 const layout = {
   labelCol: {
@@ -29,21 +39,45 @@ const layout = {
 
 const Login = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.common.loading);
+  const mesError = useSelector((state) => state.common.error.message);
+  const desError = useSelector((state) => state.common.error.description);
 
   const actions = {
-    addProductToWishlistAction,
+    loginAction,
+    errorAction,
+    refreshTokenAction,
+    loginWithAccessTokenAction,
   };
 
+  useEffect(() => {
+    if (mesError !== "") {
+      notification.open({
+        message: mesError,
+        description: desError,
+        duration: 2,
+        icon: <ExclamationCircleOutlined style={{ color: "#fc4848" }} />,
+        onClick: () =>
+          dispatch(actions.errorAction({ message: "", description: "" })),
+
+        onClose: () =>
+          dispatch(actions.errorAction({ message: "", description: "" })),
+      });
+    }
+  }, [mesError]);
+
   const onFinish = (values) => {
-    console.log("Success:", values);
-    dispatch(actions.addProductToWishlistAction(values));
+    dispatch(actions.loginAction(values));
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
   return (
     <WrapperPage login>
+      {isLoading && <Loading />}
+
       <Header />
       <WarrapperForm>
         <TitleContentHome> Đăng Nhập</TitleContentHome>
@@ -62,11 +96,11 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: "Nhập Email hoặc số điện thoại",
+                message: "Nhập tên đăng nhập",
               },
             ]}
           >
-            <InputStyle placeholder="Please input your Email or your phone" />
+            <InputStyle placeholder="Please input your username" />
           </FormItemStyle>
 
           <FormItemStyle
@@ -81,7 +115,11 @@ const Login = () => {
             <InputPasswordStyle placeholder="Please input your pasword" />
           </FormItemStyle>
           <FormItemStyle>
-            <ButtonFormStyle submit_login type="primary" htmlType="submit">
+            <ButtonFormStyle
+              submit_login="true"
+              type="primary"
+              htmlType="submit"
+            >
               Đăng nhập
             </ButtonFormStyle>
           </FormItemStyle>
@@ -92,7 +130,7 @@ const Login = () => {
           <TagAStyle fb>Facebook</TagAStyle>
         </RowGGFBStyle>
         <TagAStyle forget_pass>Quên mật khẩu?</TagAStyle>
-        <RowStyle sign_up>
+        <RowStyle sign_up="true">
           Nếu bạn chưa đăng ký? <TagAStyle>Đăng ký?</TagAStyle>
         </RowStyle>
       </WarrapperForm>

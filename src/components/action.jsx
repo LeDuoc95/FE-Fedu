@@ -1,15 +1,15 @@
 import { createActions } from "redux-actions";
 
 const actions = createActions({
-  LOGIN_ACTION: null,
-  LOGIN_SUCCESS_ACTION: null,
+  LOADING_ACTION: null,
+  ERROR_ACTION: null,
   REFRESH_TOKEN_ACTION: null,
-  GET_INFO_USER_FROM_TOKEN_ACTION: null,
+  LOGIN_WITH_ACCESS_TOKEN_ACTION: null,
 });
 
 export const {
-  loginAction,
-  loginSuccessAction,
+  loadingAction,
+  errorAction,
   refreshTokenAction,
-  getInfoUserFromTokenAction,
+  loginWithAccessTokenAction,
 } = actions;
