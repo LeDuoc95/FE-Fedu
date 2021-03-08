@@ -1,14 +1,53 @@
-import React, { useState } from "react";
-import { Menu, Button } from "antd";
-import { MenuStyleForHeader, MenuItemStyleForHeader } from "components/styles";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Menu, Dropdown } from "antd";
+import {
+  MenuStyleForHeader,
+  MenuItemStyleForHeader,
+  AccountStyle,
+  AvatarStyle,
+} from "components/styles";
+import { refreshTokenAction } from "components/action";
+import session from "utils/session";
+import { TOKEN_KEY, REFESH_TOKEN_KEY } from "utils/constant";
 
-export default function Header() {
+const Header = () => {
+  const dispatch = useDispatch();
   const [current, setCurrent] = useState("course");
-
+  const userName = useSelector((state) => state.login.username);
   const handleClick = (e) => {
     setCurrent(e.key);
   };
+
+  const actions = {
+    refreshTokenAction,
+  };
+
+  useEffect(() => {
+    const token = session.getToken(TOKEN_KEY);
+    const refreshToken = session.getToken(REFESH_TOKEN_KEY);
+    if (token && refreshToken) {
+      dispatch(actions.refreshTokenAction({ refresh: refreshToken }));
+    }
+  }, []);
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="0">
+        <a href="https://www.antgroup.com">Thông tin cá nhân</a>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="1">
+        <a href="https://www.aliyun.com">Đổi mật khẩu</a>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="3">Đăng xuất</Menu.Item>
+    </Menu>
+  );
+
   return (
     <MenuStyleForHeader
       onClick={handleClick}
@@ -22,8 +61,22 @@ export default function Header() {
         <Link to="/activate">Kích hoạt khóa học</Link>
       </MenuItemStyleForHeader>
       <MenuItemStyleForHeader key="login">
-        <Link to="/login">Đăng nhập</Link>
+        {!userName ? (
+          <Link to="/login">Đăng nhập</Link>
+        ) : (
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <AccountStyle
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+            >
+              <AvatarStyle src="https://i.imgur.com/nexvWcY.jpg" alt="avatar" />
+              <span>{userName}</span>
+            </AccountStyle>
+          </Dropdown>
+        )}
       </MenuItemStyleForHeader>
     </MenuStyleForHeader>
   );
-}
+};
+
+export default Header;

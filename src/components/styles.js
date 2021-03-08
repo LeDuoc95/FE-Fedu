@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Menu } from "antd";
+import { Menu, Spin } from "antd";
 import { TextColorDescriptions, TextColorBlue } from "components/constants";
 
 export const WrapperCard = styled.div`
@@ -197,4 +197,35 @@ export const TagAStyle = styled.a`
   &:hover {
     color: ${(props) => (props.color_hover ? props.color_hover : "white")};
   }
+`;
+
+export const LoadingStyle = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: black;
+  opacity: 0.7;
+`;
+
+export const SpinStyle = styled(Spin)`
+  color: white;
+`;
+
+export const AccountStyle = styled.div`
+  width: 65px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const AvatarStyle = styled.img`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 `;

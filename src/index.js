@@ -1,15 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
+import { PersistGate } from "redux-persist/integration/react";
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 import { Provider } from "react-redux";
-import store from "./store";
+import { ConnectedRouter } from "connected-react-router";
+import { store, persistor, history } from "./store";
 import App from "App";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
