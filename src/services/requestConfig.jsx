@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-concat */
 /* eslint-disable import/no-anonymous-default-export */
-import session from "utils/session";
+import localStorage from "utils/localStorage";
 
 const API_URL = process.env.REACT_APP_HOST;
 const STORE_KEY = process.env.STORE_KEY;

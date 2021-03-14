@@ -8,7 +8,7 @@ import {
 import { loadingAction, errorAction } from "components/action";
 import { loginRequest, refreshTokenRequest } from "services/request/login";
 import { REFESH_TOKEN_KEY, TOKEN_KEY } from "utils/constant";
-import session from "utils/session";
+import localStorage from "utils/localStorage";
 
 function* LoginSagas() {
   yield takeLatest(loginAction, function* (action) {
@@ -17,8 +17,8 @@ function* LoginSagas() {
       yield put(loadingAction(true));
       const response = yield call(loginRequest, payload);
       if (!response.error) {
-        session.setToken(TOKEN_KEY, response.body.access);
-        session.setToken(REFESH_TOKEN_KEY, response.body.refresh);
+        localStorage.setToken(TOKEN_KEY, response.body.access);
+        localStorage.setToken(REFESH_TOKEN_KEY, response.body.refresh);
         yield put(loginSuccessAction({ ...response.body }));
       }
       yield put(push("/"));
@@ -38,11 +38,12 @@ function* refreshTokenSagas() {
       yield put(loadingAction(true));
       const response = yield call(refreshTokenRequest, payload);
       if (!response.error) {
-        session.setToken(TOKEN_KEY, response.body.access);
-        // session.setToken(REFESH_TOKEN_KEY, response.body.refresh);
+        localStorage.setToken(TOKEN_KEY, response.body.access);
         yield put(loginSuccessAction({ ...response.body }));
       }
     } catch (error) {
+      localStorage.clear(TOKEN_KEY);
+      localStorage.clear(REFESH_TOKEN_KEY);
       yield put(loadingAction(false));
     } finally {
       yield put(loadingAction(false));
