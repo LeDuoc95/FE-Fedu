@@ -11,7 +11,7 @@ import {
   AvatarStyle,
 } from "components/styles";
 import { refreshTokenAction } from "components/action";
-import session from "utils/session";
+import localStorage from "utils/localStorage";
 import { TOKEN_KEY, REFESH_TOKEN_KEY } from "utils/constant";
 
 const Header = () => {
@@ -27,8 +27,8 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const token = session.getToken(TOKEN_KEY);
-    const refreshToken = session.getToken(REFESH_TOKEN_KEY);
+    const token = localStorage.getToken(TOKEN_KEY);
+    const refreshToken = localStorage.getToken(REFESH_TOKEN_KEY);
     if (token && refreshToken) {
       dispatch(actions.refreshTokenAction({ refresh: refreshToken }));
     }
