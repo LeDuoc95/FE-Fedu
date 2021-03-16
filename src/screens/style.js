@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { Row, Button, Input, Form, Pagination } from "antd";
-import { BoxShawdow } from "components/constants";
+import { BoxShawdow, DarkColor } from "components/constants";
 
 export const WrapperPage = styled.div`
   display: flex;
@@ -32,6 +32,7 @@ export const WrapperPage = styled.div`
   ${(props) =>
     props.login &&
     css`
+      min-height: 100vh;
       align-items: center;
       width: 100%;
     `}
@@ -129,8 +130,8 @@ export const WarrapperForm = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 600px;
-  height: auto;
+  min-width: 600px;
+  max-width: 70%;
   box-shadow: ${BoxShawdow};
   margin: 50px 0;
   border-radius: 10px;
@@ -156,7 +157,7 @@ export const FormStyle = styled(Form)`
   align-items: center;
   flex-direction: column;
   margin-top: 50px;
-  width: 80%;
+  width: 90%;
 `;
 
 export const FormItemStyle = styled(Form.Item)`
@@ -254,4 +255,28 @@ export const TagAStyle = styled.a`
 export const PaginationStyle = styled(Pagination)`
   text-align: center;
   margin: 20px 0;
+`;
+
+export const WrapperTermAndPrivacyPolicyStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 70vw;
+  color: ${DarkColor};
+  margin: 50px 0;
+`;
+
+export const TitleTermAndPrivacyPolicyStyle = styled.h1`
+  color: ${DarkColor};
+  text-align: center;
+`;
+
+export const TermOfTermAndPrivacyPolicyStyle = styled.h2`
+  color: ${DarkColor};
+`;
+
+export const DescriptionTermAndPrivacyPolicyStyle = styled.p`
+  color: ${DarkColor};
+  text-align: justify;
+  text-justify: inter-word;
 `;
