@@ -5,7 +5,7 @@ import { TextColorDescriptions, TextColorBlue } from "components/constants";
 export const WrapperCard = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   background-color: ${(props) => (props.bg ? props.bg : "white")};
   color: ${(props) => (props.color ? props.color : "white")};
 

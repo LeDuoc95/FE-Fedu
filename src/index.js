@@ -9,15 +9,15 @@ import { store, persistor, history } from "./store";
 import App from "App";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </PersistGate>
-    </Provider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </PersistGate>
+  </Provider>,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
 
