@@ -1,5 +1,5 @@
 import requestConfig from "services/requestConfig";
-import { URL_COURSE, URL_USER } from "utils/constant";
+import { URL_USER } from "utils/constant";
 
 let url_login = `${URL_USER}/create`;
 
