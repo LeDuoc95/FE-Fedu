@@ -10,8 +10,26 @@ import Footer from "components/footer";
 import { loginAction } from "screens/login/action";
 import { signUpAction } from "screens/signUp/action";
 import Loading from "components/loading";
-import { errorAction, refreshTokenAction, loginWithAccessTokenAction } from "components/action";
-import { WrapperPage, WarrapperForm, TitleContentHome, InputStyle, InputPasswordStyle, FormStyle, FormItemStyle, ButtonFormStyle, SubtitleStyle, RowGGFBStyle, TagAStyle, RowStyle, SmallWrapperStyle } from "screens/style";
+import {
+  errorAction,
+  refreshTokenAction,
+  loginWithAccessTokenAction,
+} from "components/action";
+import {
+  WrapperPage,
+  WarrapperForm,
+  TitleContentHome,
+  InputStyle,
+  InputPasswordStyle,
+  FormStyle,
+  FormItemStyle,
+  ButtonFormStyle,
+  SubtitleStyle,
+  RowGGFBStyle,
+  TagAStyle,
+  RowStyle,
+  SmallWrapperStyle,
+} from "screens/style";
 
 const CLIENT_ID_GOOGLE = process.env.REACT_CLIENT_ID_GOOGLE;
 
@@ -50,17 +68,22 @@ const FromLogin = ({ formType }) => {
         description: desError,
         duration: 2,
         icon: <ExclamationCircleOutlined style={{ color: "#fc4848" }} />,
-        onClick: () => dispatch(actions.errorAction({ message: "", description: "" })),
-        onClose: () => dispatch(actions.errorAction({ message: "", description: "" })),
+        onClick: () =>
+          dispatch(actions.errorAction({ message: "", description: "" })),
+        onClose: () =>
+          dispatch(actions.errorAction({ message: "", description: "" })),
       });
     }
   }, [mesError]);
 
   const responseGoogle = (response) => {
-    if (response.profileObj) {
-      if (response && response.profileObj) {
-        dispatch(actions.signUpAction({ username: response.profileObj.name, email: response.profileObj.email, type: "GGAndFacebook" }));
-      }
+    if (response && response.profileObj) {
+      dispatch(
+        actions.signUpAction({
+          response,
+          type: "login_GG",
+        })
+      );
     }
   };
 
@@ -191,10 +214,17 @@ const FromLogin = ({ formType }) => {
                   // },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (value === undefined || value.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g)) {
+                      if (
+                        value === undefined ||
+                        value.match(
+                          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g
+                        )
+                      ) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error("Không đúng dạng số điện thoại!"));
+                      return Promise.reject(
+                        new Error("Không đúng dạng số điện thoại!")
+                      );
                     },
                   }),
                 ]}
@@ -211,11 +241,17 @@ const FromLogin = ({ formType }) => {
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
+                      const strongRegex = new RegExp(
+                        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+                      );
                       if (value.match(strongRegex)) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error("Định dạng mật khẩu không đúng! - Mật khẩu gồm: chữ in hoa, chữ in thường, số, kí tự đặc biệt, dài hơn 7 kí tự và có số"));
+                      return Promise.reject(
+                        new Error(
+                          "Định dạng mật khẩu không đúng! - Mật khẩu gồm: chữ in hoa, chữ in thường, số, kí tự đặc biệt, dài hơn 7 kí tự và có số"
+                        )
+                      );
                     },
                   }),
                 ]}
@@ -237,7 +273,9 @@ const FromLogin = ({ formType }) => {
                       if (!value || getFieldValue("password") === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error("Không trùng với mật khẩu!"));
+                      return Promise.reject(
+                        new Error("Không trùng với mật khẩu!")
+                      );
                     },
                   }),
                 ]}
@@ -250,13 +288,25 @@ const FromLogin = ({ formType }) => {
                 name="agreement"
                 rules={[
                   {
-                    validator: (_, value) => (value ? Promise.resolve() : Promise.reject(new Error("Vui lòng chập nhận các điều khoản!"))),
+                    validator: (_, value) =>
+                      value
+                        ? Promise.resolve()
+                        : Promise.reject(
+                            new Error("Vui lòng chập nhận các điều khoản!")
+                          ),
                   },
                 ]}
                 valuePropName="checked"
               >
                 <Checkbox>
-                  Tôi đã đọc và đồng ý với <TagAStyle onClick={() => history.push("/terms-of-use")}>Điều khoản sử dụng</TagAStyle> và <TagAStyle onClick={() => history.push("/privacy-policy")}>Chính sách bảo mật</TagAStyle>{" "}
+                  Tôi đã đọc và đồng ý với{" "}
+                  <TagAStyle onClick={() => history.push("/terms-of-use")}>
+                    Điều khoản sử dụng
+                  </TagAStyle>{" "}
+                  và{" "}
+                  <TagAStyle onClick={() => history.push("/privacy-policy")}>
+                    Chính sách bảo mật
+                  </TagAStyle>{" "}
                 </Checkbox>
               </FormItemStyle>
             </>
@@ -286,11 +336,17 @@ const FromLogin = ({ formType }) => {
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
+                      const strongRegex = new RegExp(
+                        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+                      );
                       if (value.match(strongRegex)) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error("Định dạng mật khẩu không đúng! - Mật khẩu gồm: chữ in hoa, chữ in thường, số, kí tự đặc biệt, dài hơn 7 kí tự và có số"));
+                      return Promise.reject(
+                        new Error(
+                          "Định dạng mật khẩu không đúng! - Mật khẩu gồm: chữ in hoa, chữ in thường, số, kí tự đặc biệt, dài hơn 7 kí tự và có số"
+                        )
+                      );
                     },
                   }),
                 ]}
@@ -312,7 +368,9 @@ const FromLogin = ({ formType }) => {
                       if (!value || getFieldValue("password") === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error("Không trùng với mật khẩu!"));
+                      return Promise.reject(
+                        new Error("Không trùng với mật khẩu!")
+                      );
                     },
                   }),
                 ]}
@@ -322,7 +380,11 @@ const FromLogin = ({ formType }) => {
             </>
           )}
           <FormItemStyle>
-            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
+            <ButtonFormStyle
+              submit_login="true"
+              type="primary"
+              htmlType="submit"
+            >
               {formType === "login" && "Đăng nhập"}
               {formType === "sign_up" && "Tạo Tài Khoản"}
               {formType === "reset_password" && "Reset"}
@@ -336,11 +398,20 @@ const FromLogin = ({ formType }) => {
             <SubtitleStyle login>Hoặc đăng nhập với tài khoản</SubtitleStyle>
             <RowGGFBStyle login>
               <TagAStyle gg>
-                <GoogleLogin clientId="951710861951-pgkacjov6dinl1s9dbulfsusgkco1t2u.apps.googleusercontent.com" buttonText="Login" onSuccess={responseGoogle} onFailure={responseGoogle} cookiePolicy={"single_host_origin"} />
+                <GoogleLogin
+                  clientId="951710861951-pgkacjov6dinl1s9dbulfsusgkco1t2u.apps.googleusercontent.com"
+                  buttonText="Login"
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogle}
+                  cookiePolicy={"single_host_origin"}
+                />
               </TagAStyle>
               <TagAStyle fb>Facebook</TagAStyle>
             </RowGGFBStyle>
-            <TagAStyle onClick={() => history.push("/reset-password")} forget_pass>
+            <TagAStyle
+              onClick={() => history.push("/reset-password")}
+              forget_pass
+            >
               Quên mật khẩu?
             </TagAStyle>
           </>
@@ -349,13 +420,19 @@ const FromLogin = ({ formType }) => {
         <RowStyle sign_up="true">
           {formType === "login" && (
             <>
-              Nếu bạn chưa đăng ký? <TagAStyle onClick={() => history.push("/sign-up")}>Đăng ký?</TagAStyle>
+              Nếu bạn chưa đăng ký?{" "}
+              <TagAStyle onClick={() => history.push("/sign-up")}>
+                Đăng ký?
+              </TagAStyle>
             </>
           )}
 
           {formType === "sign_up" && (
             <>
-              Bạn đã có tài khoản? <TagAStyle onClick={() => history.push("/login")}>Đăng nhập</TagAStyle>
+              Bạn đã có tài khoản?{" "}
+              <TagAStyle onClick={() => history.push("/login")}>
+                Đăng nhập
+              </TagAStyle>
             </>
           )}
         </RowStyle>
