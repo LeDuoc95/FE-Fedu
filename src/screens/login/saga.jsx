@@ -1,10 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { push } from "react-router-redux";
-import {
-  loginAction,
-  loginSuccessAction,
-  refreshTokenAction,
-} from "screens/login/action";
+import { loginAction, loginSuccessAction, refreshTokenAction } from "screens/login/action";
 import { loadingAction, errorAction } from "components/action";
 import { loginRequest, refreshTokenRequest } from "services/request/login";
 import { REFESH_TOKEN_KEY, TOKEN_KEY } from "utils/constant";

@@ -135,6 +135,7 @@ export const WarrapperForm = styled.div`
   box-shadow: ${BoxShawdow};
   margin: 50px 0;
   border-radius: 10px;
+  min-height: 60vh;
 `;
 
 export const InputStyle = styled(Input)`
@@ -279,4 +280,11 @@ export const DescriptionTermAndPrivacyPolicyStyle = styled.p`
   color: ${DarkColor};
   text-align: justify;
   text-justify: inter-word;
+`;
+
+export const SmallWrapperStyle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  /* height: 50vh; */
 `;
