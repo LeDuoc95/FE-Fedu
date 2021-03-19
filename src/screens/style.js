@@ -197,7 +197,7 @@ export const RowGGFBStyle = styled.span`
     props.login &&
     css`
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       margin: 20px 0;
       width: 60%;
     `}
@@ -208,17 +208,13 @@ export const TagAStyle = styled.a`
   ${(props) =>
     props.gg &&
     css`
-      /* background-color: #dd4b39; */
+      height: 45px;
       background-color: red;
-      opacity: 0.8;
       padding: 5px 8px;
-      border-radius: 10px;
+      border-radius: 12px;
       width: 50%;
       color: white;
-      &:hover {
-        background-color: #dd4b39;
-        opacity: 1;
-      }
+      margin-right: 10px;
     `};
 
   ${(props) =>
@@ -227,15 +223,11 @@ export const TagAStyle = styled.a`
       opacity: 0.8;
       /* background-color: rgba(9, 30, 66); */
       background-color: blue;
-      padding: 5px 8px;
+      padding: 5px 4px;
       border-radius: 10px;
       width: 50%;
       color: white;
-      &:hover,
-      ::active {
-        background-color: rgba(9, 30, 66);
-        opacity: 1;
-      }
+      height: 45px;
     `}
 
   ${(props) =>

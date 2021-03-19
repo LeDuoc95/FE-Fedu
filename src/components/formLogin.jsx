@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { notification, Checkbox } from "antd";
 import GoogleLogin from "react-google-login";
+import FacebookLogin from "react-facebook-login";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Header from "components/header";
 import Footer from "components/footer";
@@ -15,6 +16,7 @@ import {
   refreshTokenAction,
   loginWithAccessTokenAction,
 } from "components/action";
+import "./social.css";
 import {
   WrapperPage,
   WarrapperForm,
@@ -28,7 +30,6 @@ import {
   RowGGFBStyle,
   TagAStyle,
   RowStyle,
-  SmallWrapperStyle,
 } from "screens/style";
 
 const CLIENT_ID_GOOGLE = process.env.REACT_CLIENT_ID_GOOGLE;
@@ -52,6 +53,10 @@ const FromLogin = ({ formType }) => {
   const isLoading = useSelector((state) => state.common.loading);
   const mesError = useSelector((state) => state.common.error.message);
   const desError = useSelector((state) => state.common.error.description);
+
+  const FbStyle = {
+    background: "black",
+  };
 
   const actions = {
     loginAction,
@@ -81,7 +86,18 @@ const FromLogin = ({ formType }) => {
       dispatch(
         actions.signUpAction({
           response,
-          type: "login_GG",
+          type: 1,
+        })
+      );
+    }
+  };
+
+  const responseFacebook = (response) => {
+    if (response && response.id) {
+      dispatch(
+        actions.signUpAction({
+          response,
+          type: 2,
         })
       );
     }
@@ -400,13 +416,27 @@ const FromLogin = ({ formType }) => {
               <TagAStyle gg>
                 <GoogleLogin
                   clientId="951710861951-pgkacjov6dinl1s9dbulfsusgkco1t2u.apps.googleusercontent.com"
-                  buttonText="Login"
+                  buttonText="Sign In With Google"
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}
+                  className="btnGoogle"
                   cookiePolicy={"single_host_origin"}
                 />
               </TagAStyle>
-              <TagAStyle fb>Facebook</TagAStyle>
+              <TagAStyle fb>
+                <FacebookLogin
+                  style={{ background: "black" }}
+                  appId="185834732669634"
+                  autoLoad={false}
+                  fields="name,email,picture"
+                  textButton="     Sign In With Facebook"
+                  cssClass="btnFacebook"
+                  callback={responseFacebook}
+                  icon="fa-facebook"
+                >
+                  Facebook
+                </FacebookLogin>
+              </TagAStyle>
             </RowGGFBStyle>
             <TagAStyle
               onClick={() => history.push("/reset-password")}

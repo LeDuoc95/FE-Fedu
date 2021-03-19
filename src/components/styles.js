@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { Menu, Spin } from "antd";
 import { TextColorDescriptions, TextColorBlue } from "components/constants";
+import FacebookLogin from "react-facebook-login";
 
 export const WrapperCard = styled.div`
   display: flex;
@@ -227,5 +228,9 @@ export const AccountStyle = styled.div`
 export const AvatarStyle = styled.img`
   width: 20px;
   height: 20px;
+  border-radius: 50%;
+`;
+
+export const SocailStyle = styled.div`
   border-radius: 50%;
 `;

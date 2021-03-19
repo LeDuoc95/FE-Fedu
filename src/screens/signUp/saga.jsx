@@ -4,23 +4,15 @@ import { loginSuccessAction } from "screens/login/action";
 import { signUpAction } from "screens/signUp/action";
 import { loadingAction, errorAction } from "components/action";
 import { signUpRequest } from "services/request/signUp";
-import {
-  REFESH_TOKEN_KEY_BE,
-  TOKEN_KEY_BE,
-  ID_TOKEN,
-  GOOGEL_ID,
-  REFESH_TOKEN_GG,
-  ACCESS_TOKEN_GG,
-} from "utils/constant";
+import { REFESH_TOKEN_KEY_BE, TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";
-import { loginRequest } from "services/request/login";
+import { loginRequest, loginNoPasswordRequest } from "services/request/login";
 
 function* SignUpSaga() {
   yield takeLatest(signUpAction, function* (action) {
     try {
       let data = {};
       const payload = (!!action && !!action.payload && action.payload) || {};
-      // console.log("payload :>> ", payload.type, !payload.type);
       yield put(loadingAction(true));
 
       if (!payload.type) {
@@ -29,64 +21,68 @@ function* SignUpSaga() {
         delete payload.password_confirm;
       }
 
-      if (payload && payload.type === "login_GG") {
+      if (payload && payload.type === 1) {
         data = {
           username: payload.response.profileObj.name,
           email: payload.response.profileObj.email,
+          account_type: payload.type,
         };
       }
 
-      if (payload && payload.type === "login_FB") {
-        data = {};
+      if (payload && payload.type === 2) {
+        data = {
+          username: payload.response.name,
+          email: payload.response.email,
+          account_type: payload.type,
+        };
       }
 
       const resSignUp = yield call(signUpRequest, data);
-      console.log(`resSignUp`, resSignUp);
 
       if (resSignUp && resSignUp.body && resSignUp.body.id) {
-        // console.log(resSignUp, "dang ki thanh cong");
+        let data_request = {};
+        if (!payload.type) {
+          data_request = { username: resSignUp.body.username, password: payload.password };
+        } else {
+          data_request = { username: resSignUp.body.username, password: "password" };
+        }
 
-        // if (!payload.type) {
-        //   localStorage.setToken(TOKEN_KEY_BE, resSignUp.body.access);
-        //   localStorage.setToken(REFESH_TOKEN_KEY_BE, resSignUp.body.refresh);
-        // }
+        const response_login = yield call(loginRequest, data_request);
 
-        // if (payload && payload.type === "login_GG") {
-        //   localStorage.setToken(ACCESS_TOKEN_GG, resSignUp.body.access);
-        //   localStorage.setToken(GOOGEL_ID, resSignUp.body.refresh);
-        // }
-
-        // if (payload && payload.type === "login_FB") {
-        //   localStorage.setToken(ACCESS_TOKEN_GG, resSignUp.body.access);
-        //   localStorage.setToken(GOOGEL_ID, resSignUp.body.refresh);
-        // }
-
-        yield put(loginSuccessAction({ ...resSignUp.body }));
-        yield put(push("/"));
+        if (response_login && response_login.body && response_login.body.access) {
+          localStorage.setToken(TOKEN_KEY_BE, response_login.body.access);
+          localStorage.setToken(REFESH_TOKEN_KEY_BE, response_login.body.refresh);
+          yield put(loginSuccessAction({ ...response_login.body }));
+          yield put(push("/"));
+        } else {
+          yield put(errorAction({ message: "login failed!!!", description: "" }));
+        }
       } else {
-        console.log("==================");
         if (payload.type) {
-          console.log("login voi gg");
-          const response_login = yield call(loginRequest, payload);
-          if (!response_login.error) {
-            console.log("login thanh cong voi gg");
-            localStorage.setToken(TOKEN_KEY_BE, response_login.body.access);
-            localStorage.setToken(
-              REFESH_TOKEN_KEY_BE,
-              response_login.body.refresh
-            );
-            yield put(loginSuccessAction({ ...response_login.body }));
+          let dataRequest = {};
+          if (payload.type === 1) {
+            dataRequest = { username: payload.response.profileObj.name, password: "password" };
+          }
+
+          if (payload.type === 2) {
+            dataRequest = { username: payload.response.name, password: "password" };
+          }
+
+          const responseLoginNoPassword = yield call(loginNoPasswordRequest, dataRequest);
+
+          if (responseLoginNoPassword && responseLoginNoPassword.body && responseLoginNoPassword.body.access) {
+            localStorage.setToken(TOKEN_KEY_BE, responseLoginNoPassword.body.access);
+            localStorage.setToken(REFESH_TOKEN_KEY_BE, responseLoginNoPassword.body.refresh);
+            yield put(loginSuccessAction({ ...responseLoginNoPassword.body }));
             yield put(push("/"));
+          } else {
+            yield put(errorAction({ message: "login failed!!!", description: "" }));
           }
         }
       }
-      yield put(loadingAction(false));
-      yield put(
-        errorAction({ message: "register failed!!!", description: "" })
-      );
     } catch (error) {
-      // yield put(loadingAction(false));
-      // yield put(errorAction({ message: "register failed!!!", description: "" }));
+      yield put(errorAction({ message: "register failed!!!", description: "" }));
+      throw error;
     } finally {
       yield put(loadingAction(false));
     }

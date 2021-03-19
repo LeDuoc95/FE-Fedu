@@ -7,7 +7,7 @@ const initialState = {
   username: null,
   phone: null,
   position: null,
-  eamil: null,
+  email: null,
 };
 
 export default handleActions(

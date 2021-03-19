@@ -4,12 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
-import {
-  MenuStyleForHeader,
-  MenuItemStyleForHeader,
-  AccountStyle,
-  AvatarStyle,
-} from "components/styles";
+import { MenuStyleForHeader, MenuItemStyleForHeader, AccountStyle, AvatarStyle } from "components/styles";
 import { refreshTokenAction } from "components/action";
 import localStorage from "utils/localStorage";
 import { TOKEN_KEY_BE, REFESH_TOKEN_KEY_BE } from "utils/constant";
@@ -49,11 +44,7 @@ const Header = () => {
   );
 
   return (
-    <MenuStyleForHeader
-      onClick={handleClick}
-      selectedKeys={[current]}
-      mode="horizontal"
-    >
+    <MenuStyleForHeader onClick={handleClick} selectedKeys={[current]} mode="horizontal">
       <MenuItemStyleForHeader key="course">
         <Link to="/course">Khóa học</Link>
       </MenuItemStyleForHeader>
@@ -65,10 +56,7 @@ const Header = () => {
           <Link to="/login">Đăng nhập</Link>
         ) : (
           <Dropdown overlay={menu} trigger={["click"]}>
-            <AccountStyle
-              className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
-            >
+            <AccountStyle className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
               <AvatarStyle src="https://i.imgur.com/nexvWcY.jpg" alt="avatar" />
               <span>{userName}</span>
             </AccountStyle>
