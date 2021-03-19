@@ -5,8 +5,9 @@ const initialState = {
   name: null,
   photo: "https://i.imgur.com/0jk1ek2.jpg",
   username: null,
-  tel_mobile: null,
+  phone: null,
   position: null,
+  email: null,
 };
 
 export default handleActions(
@@ -17,8 +18,9 @@ export default handleActions(
         name: payload.name,
         username: payload.username,
         photo: payload.photo,
-        tel_mobile: payload.tel_mobile,
+        phone: payload.phone,
         position: payload.position,
+        email: payload.email,
       };
     },
   },

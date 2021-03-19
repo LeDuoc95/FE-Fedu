@@ -7,7 +7,7 @@ import {
 } from "screens/login/action";
 import { loadingAction, errorAction } from "components/action";
 import { loginRequest, refreshTokenRequest } from "services/request/login";
-import { REFESH_TOKEN_KEY, TOKEN_KEY } from "utils/constant";
+import { REFESH_TOKEN_KEY_BE, TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";
 
 function* LoginSagas() {
@@ -17,8 +17,8 @@ function* LoginSagas() {
       yield put(loadingAction(true));
       const response = yield call(loginRequest, payload);
       if (!response.error) {
-        localStorage.setToken(TOKEN_KEY, response.body.access);
-        localStorage.setToken(REFESH_TOKEN_KEY, response.body.refresh);
+        localStorage.setToken(TOKEN_KEY_BE, response.body.access);
+        localStorage.setToken(REFESH_TOKEN_KEY_BE, response.body.refresh);
         yield put(loginSuccessAction({ ...response.body }));
       }
       yield put(push("/"));
@@ -38,12 +38,12 @@ function* refreshTokenSagas() {
       yield put(loadingAction(true));
       const response = yield call(refreshTokenRequest, payload);
       if (!response.error) {
-        localStorage.setToken(TOKEN_KEY, response.body.access);
+        localStorage.setToken(TOKEN_KEY_BE, response.body.access);
         yield put(loginSuccessAction({ ...response.body }));
       }
     } catch (error) {
-      localStorage.clear(TOKEN_KEY);
-      localStorage.clear(REFESH_TOKEN_KEY);
+      localStorage.clear(TOKEN_KEY_BE);
+      localStorage.clear(REFESH_TOKEN_KEY_BE);
       yield put(loadingAction(false));
     } finally {
       yield put(loadingAction(false));
