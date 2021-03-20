@@ -49,7 +49,7 @@ const Course = () => {
           xxl={19}
           style={{ background: "white" }}
         >
-          <RowStyle search>
+          <RowStyle search="true">
             <InputSearchStyle
               placeholder="input search text"
               onSearch={onSearch}
@@ -77,7 +77,7 @@ const Course = () => {
               <Option value="6">Cancelled</Option>
             </Select>
           </RowStyle>
-          <RowStyle card_course gutter={[16, 16]}>
+          <RowStyle card_course="true" gutter={[16, 16]}>
             <Col xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
               <Card
                 type="course"
