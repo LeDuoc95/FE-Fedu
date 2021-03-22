@@ -1,5 +1,5 @@
 import { handleActions } from "redux-actions";
-import { loginSuccessAction } from "screens/login/action";
+import { loginSuccessAction, logoutAction } from "screens/login/action";
 
 const initialState = {
   name: null,
@@ -23,6 +23,7 @@ export default handleActions(
         email: payload.email,
       };
     },
+    [logoutAction]: (state) => ({ ...initialState }),
   },
   initialState
 );
