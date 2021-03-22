@@ -1,50 +1,73 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
-import { MenuStyleForHeader, MenuItemStyleForHeader, AccountStyle, AvatarStyle } from "components/styles";
+import {
+  MenuStyleForHeader,
+  MenuItemStyleForHeader,
+  AccountStyle,
+  AvatarStyle,
+} from "components/styles";
 import { refreshTokenAction } from "components/action";
+import { logoutAction } from "screens/login/action";
 import localStorage from "utils/localStorage";
 import { TOKEN_KEY_BE, REFESH_TOKEN_KEY_BE } from "utils/constant";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [current, setCurrent] = useState("course");
   const userName = useSelector((state) => state.login.username);
+
   const handleClick = (e) => {
     setCurrent(e.key);
   };
 
   const actions = {
     refreshTokenAction,
+    logoutAction,
   };
 
   useEffect(() => {
     const token = localStorage.getToken(TOKEN_KEY_BE);
     const refreshToken = localStorage.getToken(REFESH_TOKEN_KEY_BE);
-    if (token && refreshToken) {
+    if (token && refreshToken && !userName) {
       dispatch(actions.refreshTokenAction({ refresh: refreshToken }));
     }
-  }, []);
+  }, [userName]);
+
+  const handleLogout = () => {
+    dispatch(actions.logoutAction());
+    localStorage.clearToken(TOKEN_KEY_BE);
+    localStorage.clearToken(REFESH_TOKEN_KEY_BE);
+    history.push("/login");
+  };
 
   const menu = (
     <Menu>
       <Menu.Item key="0">
-        <a href="https://www.antgroup.com">Thông tin cá nhân</a>
+        <Link to="/account-manage"> Thông tin cá nhân </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="1">
-        <a href="https://www.aliyun.com">Đổi mật khẩu</a>
+        <Link to="/change-password"> Đổi mật khẩu </Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="3">Đăng xuất</Menu.Item>
+      <Menu.Item key="3" onClick={handleLogout}>
+        Đăng xuất
+      </Menu.Item>
     </Menu>
   );
 
   return (
-    <MenuStyleForHeader onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+    <MenuStyleForHeader
+      onClick={handleClick}
+      selectedKeys={[current]}
+      mode="horizontal"
+    >
       <MenuItemStyleForHeader key="course">
         <Link to="/course">Khóa học</Link>
       </MenuItemStyleForHeader>
@@ -56,7 +79,10 @@ const Header = () => {
           <Link to="/login">Đăng nhập</Link>
         ) : (
           <Dropdown overlay={menu} trigger={["click"]}>
-            <AccountStyle className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+            <AccountStyle
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+            >
               <AvatarStyle src="https://i.imgur.com/nexvWcY.jpg" alt="avatar" />
               <span>{userName}</span>
             </AccountStyle>

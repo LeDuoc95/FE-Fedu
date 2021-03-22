@@ -15,11 +15,11 @@ import { Col } from "antd";
 
 export default function Home() {
   return (
-    <WrapperPage home>
+    <WrapperPage home="true">
       <Header />
-      <ImageCommon home src="/images/banner.png" alt="banner" />
+      <ImageCommon home="true" src="/images/banner.png" alt="banner" />
       <TitleContentHome>Lorem Ipsum</TitleContentHome>
-      <RowStyle home gutter={[16, 16]}>
+      <RowStyle home="true" gutter={[16, 16]}>
         <Col xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
           <Card
             type="course"
@@ -108,7 +108,7 @@ export default function Home() {
       <ButtonStyle>Xem tất cả</ButtonStyle>
       <WhyChoiceUsStyle>
         <TitleContentHome>Lorem Ipsum is simply dummy</TitleContentHome>
-        <RowStyle home gutter={[16, 16]}>
+        <RowStyle home="true" gutter={[16, 16]}>
           <Col xs={24} sm={12} md={7} lg={7} xl={7} xxl={7}>
             <Card
               type="choice"
@@ -147,7 +147,7 @@ export default function Home() {
           </Col>
         </RowStyle>
         <TitleContentHome>Lorem Ipsum is simply dummy</TitleContentHome>
-        <RowStyle home gutter={[16, 16]}>
+        <RowStyle home="true" gutter={[16, 16]}>
           <Col xs={24} sm={12} md={8} lg={8} xl={8} xxl={8}>
             <CardText
               name={"john Doe"}

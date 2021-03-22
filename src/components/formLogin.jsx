@@ -8,7 +8,7 @@ import FacebookLogin from "react-facebook-login";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Header from "components/header";
 import Footer from "components/footer";
-import { loginAction } from "screens/login/action";
+import { loginAction, changePasswordAction } from "screens/login/action";
 import { signUpAction } from "screens/signUp/action";
 import Loading from "components/loading";
 import {
@@ -54,16 +54,13 @@ const FromLogin = ({ formType }) => {
   const mesError = useSelector((state) => state.common.error.message);
   const desError = useSelector((state) => state.common.error.description);
 
-  const FbStyle = {
-    background: "black",
-  };
-
   const actions = {
     loginAction,
     errorAction,
     refreshTokenAction,
     loginWithAccessTokenAction,
     signUpAction,
+    changePasswordAction,
   };
 
   useEffect(() => {
@@ -114,8 +111,9 @@ const FromLogin = ({ formType }) => {
     }
 
     if (formType === "change_password") {
-      console.log(`values`, values);
-      // dispatch(actions.signUpAction(values));
+      // console.log(`values`, values);
+      delete values.password_confirm;
+      dispatch(actions.changePasswordAction(values));
     }
 
     if (formType === "reset_password") {
@@ -341,14 +339,15 @@ const FromLogin = ({ formType }) => {
               <InputStyle placeholder="Vui lòng nhập tên đăng nhập*" />
             </FormItemStyle>
           )}
+
           {formType === "change_password" && (
             <>
               <FormItemStyle
-                name="password"
+                name="old_password"
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng nhập mật khẩu",
+                    message: "Vui lòng nhập mật khẩu cũ",
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
@@ -367,12 +366,39 @@ const FromLogin = ({ formType }) => {
                   }),
                 ]}
               >
-                <InputPasswordStyle placeholder="Vui lòng nhập mật khẩu*" />
+                <InputPasswordStyle placeholder="Vui lòng nhập mật khẩu cũ" />
+              </FormItemStyle>
+
+              <FormItemStyle
+                name="new_password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng nhập mật khẩu mới",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      const strongRegex = new RegExp(
+                        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+                      );
+                      if (value.match(strongRegex)) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error(
+                          "Định dạng mật khẩu không đúng! - Mật khẩu gồm: chữ in hoa, chữ in thường, số, kí tự đặc biệt, dài hơn 7 kí tự và có số"
+                        )
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <InputPasswordStyle placeholder="Vui lòng nhập mật khẩu mới" />
               </FormItemStyle>
 
               <FormItemStyle
                 name="password_confirm"
-                dependencies={["password"]}
+                dependencies={["new_password"]}
                 hasFeedback
                 rules={[
                   {
@@ -381,7 +407,7 @@ const FromLogin = ({ formType }) => {
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
+                      if (!value || getFieldValue("new_password") === value) {
                         return Promise.resolve();
                       }
                       return Promise.reject(
@@ -395,6 +421,7 @@ const FromLogin = ({ formType }) => {
               </FormItemStyle>
             </>
           )}
+
           <FormItemStyle>
             <ButtonFormStyle
               submit_login="true"
@@ -403,8 +430,8 @@ const FromLogin = ({ formType }) => {
             >
               {formType === "login" && "Đăng nhập"}
               {formType === "sign_up" && "Tạo Tài Khoản"}
-              {formType === "reset_password" && "Reset"}
-              {formType === "change_password" && "Change"}
+              {formType === "reset_password" && "Đặt lại mật khẩu"}
+              {formType === "change_password" && "Thay đổi mật khẩu"}
             </ButtonFormStyle>
           </FormItemStyle>
         </FormStyle>
