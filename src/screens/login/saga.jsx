@@ -1,17 +1,8 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { push } from "react-router-redux";
-import {
-  loginAction,
-  loginSuccessAction,
-  refreshTokenAction,
-  changePasswordAction,
-} from "screens/login/action";
+import { loginAction, loginSuccessAction, refreshTokenAction, changePasswordAction } from "screens/login/action";
 import { loadingAction, errorAction } from "components/action";
-import {
-  loginRequest,
-  refreshTokenRequest,
-  changePasswordRequest,
-} from "services/request/login";
+import { loginRequest, refreshTokenRequest, changePasswordRequest } from "services/request/login";
 import { REFESH_TOKEN_KEY_BE, TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";
 
@@ -47,8 +38,8 @@ function* refreshTokenSagas() {
         yield put(loginSuccessAction({ ...response.body }));
       }
     } catch (error) {
-      localStorage.clear(TOKEN_KEY_BE);
-      localStorage.clear(REFESH_TOKEN_KEY_BE);
+      localStorage.clearToken(TOKEN_KEY_BE);
+      localStorage.clearToken(REFESH_TOKEN_KEY_BE);
       yield put(loadingAction(false));
     } finally {
       yield put(loadingAction(false));

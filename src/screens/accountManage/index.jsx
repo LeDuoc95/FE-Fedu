@@ -6,16 +6,7 @@ import Footer from "components/footer";
 import Loading from "components/loading";
 import { Upload, message, Row, Col } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import {
-  WrapperPage,
-  WarrapperForm,
-  TitleContentHome,
-  InputStyle,
-  FormStyle,
-  FormItemStyle,
-  ButtonFormStyle,
-  RowStyle,
-} from "screens/style";
+import { WrapperPage, WarrapperForm, TitleContentHome, InputStyle, FormStyle, FormItemStyle, ButtonFormStyle, RowStyle } from "screens/style";
 
 const layout = {
   labelCol: {
@@ -36,11 +27,11 @@ const AccountManage = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [fileList, setFileList] = useState([]);
 
-//   useEffect(() => {
-//     form.setFieldsValue({
-//       username: infoUser.username
-// });
-  }, [infoUser])
+  //   useEffect(() => {
+  //     form.setFieldsValue({
+  //       username: infoUser.username
+  // });
+  // }, [infoUser])
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -162,17 +153,10 @@ const AccountManage = () => {
                   // },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (
-                        value === undefined ||
-                        value.match(
-                          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g
-                        )
-                      ) {
+                      if (value === undefined || value.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g)) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(
-                        new Error("Không đúng dạng số điện thoại!")
-                      );
+                      return Promise.reject(new Error("Không đúng dạng số điện thoại!"));
                     },
                   }),
                 ]}
@@ -183,11 +167,7 @@ const AccountManage = () => {
           </RowStyle>
 
           <FormItemStyle>
-            <ButtonFormStyle
-              submit_login="true"
-              type="primary"
-              htmlType="submit"
-            >
+            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
               Cập nhật tài khoản
             </ButtonFormStyle>
           </FormItemStyle>
