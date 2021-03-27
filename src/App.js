@@ -3,6 +3,7 @@ import Home from "screens/home";
 import ActivateCourse from "screens/activate";
 import Login from "screens/login";
 import SignUp from "screens/signUp";
+import AccountManage from "screens/accountManage";
 import TermsAndPrivacyPolicy from "screens/TermsAndPrivacyPolicy";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -30,6 +31,9 @@ const App = () => {
       </Route>
       <Route path="/sign-up">
         <SignUp />
+      </Route>
+      <Route path="/account-manage">
+        <AccountManage />
       </Route>
       <Route path="/terms-of-use">
         <TermsAndPrivacyPolicy type="terms-of-use" />

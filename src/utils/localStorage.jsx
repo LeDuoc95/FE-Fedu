@@ -14,12 +14,12 @@ const get = (key) => {
   return (functions.isJson(value) && JSON.parse(value)) || value;
 };
 
-const clear = (key) => {
+const clearToken = (key) => {
   if (!!key) {
-    sessionStorage.removeItem(key);
+    localStorage.removeItem(key);
     return;
   }
-  sessionStorage.clear();
+  localStorage.clear();
 };
 
 const setToken = (key, value) => {
@@ -30,4 +30,4 @@ const getToken = (key) => {
   return localStorage.getItem(key);
 };
 
-export default { set, get, clear, setToken, getToken };
+export default { set, get, clearToken, setToken, getToken };

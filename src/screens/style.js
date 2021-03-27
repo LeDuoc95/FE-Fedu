@@ -55,6 +55,12 @@ export const RowStyle = styled(Row)`
     `};
 
   ${(props) =>
+    props.account_manage &&
+    css`
+      width: 80%;
+    `};
+
+  ${(props) =>
     props.search &&
     css`
       display: flex;
@@ -136,6 +142,15 @@ export const WarrapperForm = styled.div`
   margin: 50px 0;
   border-radius: 10px;
   min-height: 60vh;
+  ${(props) =>
+    props.account_manage &&
+    css`
+      margin: 0;
+      padding: 50px 0;
+      width: 100%;
+      justify-content: space-between;
+      /* box-shadow: none; */
+    `}
 `;
 
 export const InputStyle = styled(Input)`
@@ -159,6 +174,7 @@ export const FormStyle = styled(Form)`
   flex-direction: column;
   margin-top: 50px;
   width: 90%;
+  max-width: 1000px;
 `;
 
 export const FormItemStyle = styled(Form.Item)`
