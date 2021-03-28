@@ -3,7 +3,7 @@ import { loginSuccessAction, logoutAction } from "screens/login/action";
 
 const initialState = {
   name: null,
-  photo: "https://i.imgur.com/0jk1ek2.jpg",
+  photo: {},
   username: null,
   phone: null,
   position: null,
@@ -13,11 +13,12 @@ const initialState = {
 export default handleActions(
   {
     [loginSuccessAction]: (state, { payload }) => {
+      console.log("payload :>> ", payload);
       return {
         ...state,
         name: payload.name,
         username: payload.username,
-        photo: payload.photo,
+        photo: { ...payload.photo },
         phone: payload.phone,
         position: payload.position,
         email: payload.email,

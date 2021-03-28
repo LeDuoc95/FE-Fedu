@@ -1,12 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Upload, Col, Form, notification } from "antd";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+
 import Header from "components/header";
 import Footer from "components/footer";
 import Loading from "components/loading";
-import { Upload, message, Row, Col } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { WrapperPage, WarrapperForm, TitleContentHome, InputStyle, FormStyle, FormItemStyle, ButtonFormStyle, RowStyle } from "screens/style";
+import { changeAccountAction } from "screens/accountManage/action";
+
+import { TOKEN_KEY_BE } from "utils/constant";
+import localStorage from "utils/localStorage";
+
+import {
+  WrapperPage,
+  WarrapperForm,
+  TitleContentHome,
+  InputStyle,
+  FormStyle,
+  FormItemStyle,
+  ButtonFormStyle,
+  RowStyle,
+} from "screens/style";
 
 const layout = {
   labelCol: {
@@ -17,28 +32,70 @@ const layout = {
   },
 };
 
+const API_URL = process.env.REACT_APP_HOST;
+
 const AccountManage = () => {
+  const [form] = Form.useForm();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const history = useHistory();
   const isLoading = useSelector((state) => state.common.loading);
   const infoUser = useSelector((state) => state.login);
 
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
-  const [fileList, setFileList] = useState([]);
+  const [listFile, setListFile] = useState(() => {
+    const avatar = [];
+    if (infoUser.photo.id) {
+      avatar.push({
+        uid: infoUser.photo.id || "",
+        name: "image.png",
+        status: "done",
+        url: `${API_URL}` + "media/" + `${infoUser.photo.path}`,
+      });
+    }
+    return avatar;
+  });
 
-  //   useEffect(() => {
-  //     form.setFieldsValue({
-  //       username: infoUser.username
-  // });
-  // }, [infoUser])
+  const actions = { changeAccountAction };
+
+  useEffect(() => {
+    if (location.pathname === "/account-manage") {
+      const avatar = [];
+      if (infoUser.photo.id) {
+        avatar.push({
+          uid: infoUser.photo.id || "",
+          name: "image.png",
+          status: "done",
+          url: `${API_URL}` + "media/" + `${infoUser.photo.path}`,
+        });
+      }
+      setListFile(avatar);
+    }
+  }, [infoUser]);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      ...infoUser,
+    });
+  }, [form, infoUser]);
 
   const onFinish = (values) => {
-    console.log("Success:", values);
+    const data = { ...values };
+    if (listFile[0]?.uid) {
+      data.photo = listFile[0].uid;
+    } else {
+      data.photo = "";
+    }
+    dispatch(actions.changeAccountAction({ ...data }));
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    notification.open({
+      message: "Cập nhật thất bại!",
+      description: errorInfo,
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
   };
 
   const uploadButton = (
@@ -48,18 +105,38 @@ const AccountManage = () => {
     </div>
   );
 
-  const handleChange = ({ fileList }) => {
-    console.log("fileList :>> ", fileList);
-    setFileList(fileList);
+  const handleChange = ({ fileList, file }) => {
+    if (fileList.length && file.uid && file.thumbUrl === "") {
+      const authorization = localStorage.getToken(TOKEN_KEY_BE);
+      const formData = new FormData();
+      formData.append("imagesUser", fileList[0].originFileObj);
+
+      fetch(`${API_URL}` + "user/upload-images", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + `${authorization}`,
+        },
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          setListFile([
+            {
+              uid: res.body.id,
+              name: "image.png",
+              status: "done",
+              url: `${API_URL}` + "media/" + `${res.body.photo}`,
+            },
+          ]);
+          return;
+        })
+        .catch(function (error) {
+          console.log("Request failed", error);
+        });
+    }
+    setListFile(fileList);
   };
 
-  const dummyRequest = ({ file, onSuccess }) => {
-    console.log("file :>> ", file);
-    setTimeout(() => {
-      onSuccess("ok");
-    }, 0);
-  };
-  console.log("infoUser :>> ", infoUser.username);
   return (
     <WrapperPage login>
       {isLoading && <Loading />}
@@ -69,6 +146,7 @@ const AccountManage = () => {
         <TitleContentHome> Thông tin về tài khoản </TitleContentHome>
 
         <FormStyle
+          form={form}
           {...layout}
           name="basic"
           initialValues={{
@@ -90,12 +168,12 @@ const AccountManage = () => {
               >
                 <Upload
                   listType="picture-card"
-                  fileList={fileList}
+                  fileList={listFile}
                   customRequest={({ onSuccess }) => onSuccess("ok")}
                   // onPreview={handlePreview}
                   onChange={handleChange}
                 >
-                  {fileList.length >= 1 ? null : uploadButton}
+                  {listFile.length >= 1 ? null : uploadButton}
                 </Upload>
               </FormItemStyle>
             </Col>
@@ -153,10 +231,17 @@ const AccountManage = () => {
                   // },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (value === undefined || value.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g)) {
+                      if (
+                        value === "" ||
+                        value.match(
+                          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g
+                        )
+                      ) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error("Không đúng dạng số điện thoại!"));
+                      return Promise.reject(
+                        new Error("Không đúng dạng số điện thoại!")
+                      );
                     },
                   }),
                 ]}
@@ -167,7 +252,11 @@ const AccountManage = () => {
           </RowStyle>
 
           <FormItemStyle>
-            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
+            <ButtonFormStyle
+              submit_login="true"
+              type="primary"
+              htmlType="submit"
+            >
               Cập nhật tài khoản
             </ButtonFormStyle>
           </FormItemStyle>
