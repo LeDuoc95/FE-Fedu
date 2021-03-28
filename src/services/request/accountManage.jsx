@@ -4,10 +4,10 @@ import localStorage from "utils/localStorage";
 
 const Token = localStorage.getToken(TOKEN_KEY_BE);
 
-let urlChangeInfoAccountManage = `${URL_USER}/edit`;
+let urlChangeInfoAccountManage = `${URL_USER}/update`;
 
 export const ChangeInfoAccountManageRequest = async (data) => {
-  const response = await requestConfig.fetchPost(
+  const response = await requestConfig.fetchPut(
     "json",
     Token,
     urlChangeInfoAccountManage,
