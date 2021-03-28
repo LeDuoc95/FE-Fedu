@@ -16,11 +16,14 @@ import { logoutAction } from "screens/login/action";
 import localStorage from "utils/localStorage";
 import { TOKEN_KEY_BE, REFESH_TOKEN_KEY_BE } from "utils/constant";
 
+const API_URL = process.env.REACT_APP_HOST;
+
 const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [current, setCurrent] = useState("course");
   const userName = useSelector((state) => state.login.username);
+  const photo = useSelector((state) => state.login.photo);
 
   const handleClick = (e) => {
     setCurrent(e.key);
@@ -83,7 +86,13 @@ const Header = () => {
               className="ant-dropdown-link"
               onClick={(e) => e.preventDefault()}
             >
-              <AvatarStyle src="https://i.imgur.com/nexvWcY.jpg" alt="avatar" />
+              <AvatarStyle
+                src={
+                  `${API_URL}` + "media/" + `${photo?.path}` ||
+                  "https://i.imgur.com/nexvWcY.jpg"
+                }
+                alt="avatar"
+              />
               <span>{userName}</span>
             </AccountStyle>
           </Dropdown>
