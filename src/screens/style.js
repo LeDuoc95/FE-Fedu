@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Row, Button, Input, Form, Pagination } from "antd";
+import { Row, Button, Input, Form, Pagination, Col } from "antd";
 import { BoxShawdow, DarkColor } from "components/constants";
 
 export const WrapperPage = styled.div`
@@ -294,5 +294,21 @@ export const SmallWrapperStyle = styled.div`
   display: flex;
   align-items: center;
   justify-items: center;
-  /* height: 50vh; */
+`;
+
+export const ColCardTextStyle = styled(Col)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const WrapCarouselCardTextStyle = styled.div`
+  & div {
+    margin: 0 auto!important;
+    & span {
+      color: mediumvioletred;
+      font-weight: 600;
+    }
+  }
+  }
 `;
