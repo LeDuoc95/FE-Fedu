@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Row, Button, Input, Form, Pagination } from "antd";
+import { Row, Button, Input, Form, Pagination, Col, Upload, Select } from "antd";
 import { BoxShawdow, DarkColor } from "components/constants";
 
 export const WrapperPage = styled.div`
@@ -93,6 +93,13 @@ export const RowStyle = styled(Row)`
       display: flex;
       margin-bottom: 30px;
     `};
+
+  ${(props) =>
+    props.course_upload &&
+    css`
+      max-width: 75%;
+      width: 100%;
+    `};
 `;
 
 export const ImageCommon = styled.img`
@@ -149,13 +156,32 @@ export const WarrapperForm = styled.div`
       padding: 50px 0;
       width: 100%;
       justify-content: space-between;
-      /* box-shadow: none; */
+    `}
+  ${(props) =>
+    props.course_upload &&
+    css`
+      max-width: unset;
+      width: 100%;
+      min-height: unset;
+      margin: unset;
+      justify-content: space-between;
     `}
 `;
 
 export const InputStyle = styled(Input)`
   border-radius: 20px;
   width: 100%;
+`;
+
+export const SelectStyle = styled(Select)`
+  & .ant-select-selector {
+    border-radius: 20px !important;
+    width: 100%;
+    & .ant-select-selection-overflow {
+      display: flex;
+      align-items: center;
+    }
+  }
 `;
 
 export const InputPasswordStyle = styled(Input.Password)`
@@ -175,12 +201,66 @@ export const FormStyle = styled(Form)`
   margin-top: 50px;
   width: 90%;
   max-width: 1000px;
+  ${(props) =>
+    props.course_upload &&
+    css`
+      width: 100%;
+      max-width: unset;
+      & .ant-col.ant-col-18.ant-form-item-control {
+        width: 100%;
+      }
+    `}
 `;
 
 export const FormItemStyle = styled(Form.Item)`
   display: flex;
   justify-content: center;
   width: 100%;
+`;
+
+export const FormItemCourseStyle = styled(Form.Item)`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+export const UploadImageCourse = styled(Upload)`
+  width: 100%;
+  height: 350px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & .ant-upload-list.ant-upload-list-picture-card {
+    width: 100%;
+    height: 100%;
+    & .ant-upload.ant-upload-select.ant-upload-select-picture-card,
+    .ant-upload-list-picture-card-container {
+      width: 100% !important;
+      height: 100% !important;
+
+      & .ant-upload,
+      .ant-upload-list-item.ant-upload-list-item-done.ant-upload-list-item-list-type-picture-card {
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0px;
+        & .ant-upload-list-item-info {
+          & .ant-upload-span {
+            & a {
+              & img {
+                object-fit: cover;
+              }
+            }
+          }
+          &:before {
+            width: 100%;
+            height: 100%;
+            left: 0px !important;
+          }
+        }
+      }
+    }
+  }
 `;
 
 export const ButtonFormStyle = styled(Button)`
@@ -294,5 +374,21 @@ export const SmallWrapperStyle = styled.div`
   display: flex;
   align-items: center;
   justify-items: center;
-  /* height: 50vh; */
+`;
+
+export const ColCardTextStyle = styled(Col)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const WrapCarouselCardTextStyle = styled.div`
+  & div {
+    margin: 0 auto!important;
+    & span {
+      color: mediumvioletred;
+      font-weight: 600;
+    }
+  }
+  }
 `;

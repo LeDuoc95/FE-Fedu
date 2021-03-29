@@ -90,6 +90,7 @@ export const TitleCard = styled.p`
 export const ContentCard = styled.div`
   width: 100%;
   padding: 20px;
+  height: 225px;
 `;
 
 export const AuthorCard = styled.span`
@@ -154,8 +155,8 @@ export const DescriptionCardStyle = styled.p`
     props.card_text &&
     css`
       height: 150px;
-      word-wrap: break-word;
-      word-break: break-all;
+      text-align: justify;
+      text-justify: inter-word;
     `}
 `;
 

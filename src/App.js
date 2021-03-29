@@ -2,6 +2,7 @@ import Course from "screens/course";
 import Home from "screens/home";
 import ActivateCourse from "screens/activate";
 import Login from "screens/login";
+import UploadCourse from "screens/course/uploadCourse";
 import SignUp from "screens/signUp";
 import AccountManage from "screens/accountManage";
 import TermsAndPrivacyPolicy from "screens/TermsAndPrivacyPolicy";
@@ -16,6 +17,9 @@ const App = () => {
       </Route>
       <Route exact path="/course">
         <Course />
+      </Route>
+      <Route exact path="/course/:id">
+        <UploadCourse />
       </Route>
       <Route path="/activate">
         <ActivateCourse />
