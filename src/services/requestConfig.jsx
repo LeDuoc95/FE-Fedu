@@ -31,7 +31,11 @@ const fetchGet = async (contentType, token, api, messErr = null) => {
       throw Error("invalidToken");
     }
 
-    if (response.status === 200 || response.status === 500 || response.status === 400) {
+    if (
+      response.status === 200 ||
+      response.status === 500 ||
+      response.status === 400
+    ) {
       return await response.json();
     }
 
@@ -66,7 +70,12 @@ const fetchPost = async (contentType, token, api, body, messErr = null) => {
       throw Error(response.statusText);
     }
 
-    if (response.status === 200 || response.status === 500 || response.status === 400) {
+    if (
+      response.status === 200 ||
+      response.status === 500 ||
+      response.status === 400 ||
+      response.status === 201
+    ) {
       return await response.json();
     }
 
