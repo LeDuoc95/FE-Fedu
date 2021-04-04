@@ -15,7 +15,8 @@ export const WrapperCard = styled.div`
     css`
       min-height: 360px;
       min-width: 180px;
-      max-width: 360px;
+      /* max-width: 360px; */
+      width: 100%;
       box-shadow: 0px 0px 50px 6px rgba(219, 212, 219, 1);
       border-radius: 10px;
       &:hover {
@@ -234,4 +235,15 @@ export const AvatarStyle = styled.img`
 
 export const SocailStyle = styled.div`
   border-radius: 50%;
+`;
+
+export const ImagesStyle = styled.img`
+  ${(props) =>
+    props.page_not_found &&
+    css`
+      width: ${(props) => (props.width ? props.width : "100%")};
+      height: ${(props) => (props.height ? props.height : "auto")};
+      max-height: 800px;
+      min-height: 200px;
+    `}
 `;

@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Course from "screens/course";
 import Home from "screens/home";
 import ActivateCourse from "screens/activate";
@@ -6,7 +7,7 @@ import UploadCourse from "screens/course/uploadCourse";
 import SignUp from "screens/signUp";
 import AccountManage from "screens/accountManage";
 import TermsAndPrivacyPolicy from "screens/TermsAndPrivacyPolicy";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import PageNotFound from "components/pageNotFound";
 
 const App = () => {
   return (
@@ -44,6 +45,9 @@ const App = () => {
       </Route>
       <Route path="/privacy-policy">
         <TermsAndPrivacyPolicy type="privacy-policy" />
+      </Route>
+      <Route path="/page-not-found">
+        <PageNotFound />
       </Route>
     </Switch>
     // </Router>

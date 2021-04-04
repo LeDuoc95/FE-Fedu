@@ -49,9 +49,8 @@ export const RowStyle = styled(Row)`
   ${(props) =>
     props.course &&
     css`
-      border: 1px solid #ccc;
-      box-shadow: ${BoxShawdow};
-      padding: 10px;
+      /* border: 1px solid #ccc;
+      box-shadow: ${BoxShawdow}; */
     `};
 
   ${(props) =>
@@ -61,11 +60,13 @@ export const RowStyle = styled(Row)`
     `};
 
   ${(props) =>
-    props.search &&
+    props.course_search &&
     css`
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      width: 100%;
+      margin: 20px 0;
+      & .ant-col.ant-col-12:nth-last-child(1) {
+        text-align: end;
+      }
     `};
 
   ${(props) =>
@@ -391,4 +392,38 @@ export const WrapCarouselCardTextStyle = styled.div`
     }
   }
   }
+`;
+
+export const ContentStyle = styled.div`
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 20px;
+  ${(props) =>
+    props.course_list_card &&
+    css`
+      max-width: 1600px;
+    `}
+`;
+
+export const ColStyle = styled(Col)`
+  ${(props) =>
+    props.course_table_content &&
+    css`
+      box-shadow: 0 8px 20px #e3e7ea;
+      padding: 15px;
+      height: fit-content;
+      border-radius: 7px;
+      margin-top: 40px;
+      border: 1px solid #d5d0d0;
+      & a {
+        margin: 1em 0;
+      }
+    `}
+
+  ${(props) =>
+    props.course_list_card &&
+    css`
+      padding: 20px;
+      background: #e3e7ea40;
+    `}
 `;

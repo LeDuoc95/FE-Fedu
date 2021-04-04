@@ -8,10 +8,28 @@ import Header from "components/header";
 import Footer from "components/footer";
 import Loading from "components/loading";
 import { changeAccountAction } from "screens/accountManage/action";
+import {
+  getCourseAction,
+  createCourseAction,
+  updateCourseAction,
+  deleteCourseAction,
+} from "screens/course/action";
 
 import { TOKEN_KEY_BE, TYPE_COURSE_OPTION } from "utils/constant";
 import localStorage from "utils/localStorage";
-import { WrapperPage, WarrapperForm, TitleContentHome, InputStyle, FormStyle, FormItemStyle, ButtonFormStyle, RowStyle, FormItemCourseStyle, UploadImageCourse, SelectStyle } from "screens/style";
+import {
+  WrapperPage,
+  WarrapperForm,
+  TitleContentHome,
+  InputStyle,
+  FormStyle,
+  FormItemStyle,
+  ButtonFormStyle,
+  RowStyle,
+  FormItemCourseStyle,
+  UploadImageCourse,
+  SelectStyle,
+} from "screens/style";
 
 const layout = {
   labelCol: {
@@ -48,7 +66,13 @@ const UploadCourseurse = (props) => {
     return avatar;
   });
 
-  const actions = { changeAccountAction };
+  const actions = {
+    changeAccountAction,
+    getCourseAction,
+    createCourseAction,
+    updateCourseAction,
+    deleteCourseAction,
+  };
 
   const tagRender = (props) => {
     const { label, closable, onClose } = props;
@@ -66,15 +90,14 @@ const UploadCourseurse = (props) => {
   //   }, [form, infoUser]);
 
   const onFinish = (values) => {
-    const data = { ...values };
-    console.log(`values`, values);
-    if (listFile[0]?.uid) {
-      data.photo = listFile[0].uid;
-    } else {
-      data.photo = "";
+    if (!values.photo) {
+      return notification.open({
+        message: "photo is require",
+        description: "",
+      });
     }
-    console.log(`data`, data);
-    // dispatch(actions.changeAccountAction({ ...data }));
+    values.photo = listFile[0].uid;
+    dispatch(actions.createCourseAction({ ...values }));
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -145,7 +168,6 @@ const UploadCourseurse = (props) => {
               listType="picture-card"
               fileList={listFile}
               customRequest={({ onSuccess }) => onSuccess("ok")}
-              // onPreview={handlePreview}
               onChange={handleChange}
             >
               {listFile.length >= 1 ? null : uploadButton}
@@ -191,9 +213,22 @@ const UploadCourseurse = (props) => {
                     required: true,
                     message: "Vui lòng nhập giá bán của khóa học",
                   },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (value && !Number.isInteger(Number(value))) {
+                        return Promise.reject(
+                          new Error("Chưa đúng định dạng!")
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
                 ]}
               >
-                <InputStyle placeholder="Vui lòng nhập giá bán của khóa học" />
+                <InputStyle
+                  type="number"
+                  placeholder="Vui lòng nhập giá bán của khóa học"
+                />
               </FormItemStyle>
               <FormItemStyle
                 label="Loại"
@@ -206,13 +241,24 @@ const UploadCourseurse = (props) => {
                   },
                 ]}
               >
-                <SelectStyle mode="multiple" showArrow tagRender={tagRender} defaultValue={[]} style={{ width: "100%" }} options={TYPE_COURSE_OPTION} />
+                <SelectStyle
+                  mode="multiple"
+                  showArrow
+                  tagRender={tagRender}
+                  defaultValue={[]}
+                  style={{ width: "100%" }}
+                  options={TYPE_COURSE_OPTION}
+                />
               </FormItemStyle>
             </Col>
           </RowStyle>
 
           <FormItemStyle>
-            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
+            <ButtonFormStyle
+              submit_login="true"
+              type="primary"
+              htmlType="submit"
+            >
               {"Tạo" || "Tạo mới khóa học" || "Cập nhật khóa học"}
             </ButtonFormStyle>
           </FormItemStyle>
