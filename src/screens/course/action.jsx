@@ -7,6 +7,8 @@ const actions = createActions({
   CREATE_COURSE_ACTION: null,
   UPDATE_COURSE_ACTION: null,
   DELETE_COURSE_ACTION: null,
+  GET_DETAIL_COURSE_ACTION: null,
+  GET_DETAIL_COURSE_SUCCESS_ACTION: null,
 });
 
 export const {
@@ -16,4 +18,6 @@ export const {
   updateCourseAction,
   getCourseSuccessAction,
   deleteCourseAction,
+  getDetailCourseAction,
+  getDetailCourseSuccessAction,
 } = actions;

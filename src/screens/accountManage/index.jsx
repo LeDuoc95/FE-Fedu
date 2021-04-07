@@ -12,16 +12,7 @@ import { changeAccountAction } from "screens/accountManage/action";
 import { TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";
 
-import {
-  WrapperPage,
-  WarrapperForm,
-  TitleContentHome,
-  InputStyle,
-  FormStyle,
-  FormItemStyle,
-  ButtonFormStyle,
-  RowStyle,
-} from "screens/style";
+import { WrapperPage, WarrapperForm, TitleContentHome, InputStyle, FormStyle, FormItemStyle, ButtonFormStyle, RowStyle } from "screens/style";
 
 const layout = {
   labelCol: {
@@ -89,13 +80,13 @@ const AccountManage = () => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    notification.open({
-      message: "Cập nhật thất bại!",
-      description: errorInfo,
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
+    // notification.open({
+    //   message: "Cập nhật thất bại!",
+    //   description: errorInfo,
+    //   onClick: () => {
+    //     console.log("Notification Clicked!");
+    //   },
+    // });
   };
 
   const uploadButton = (
@@ -231,17 +222,10 @@ const AccountManage = () => {
                   // },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (
-                        value === "" ||
-                        value.match(
-                          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g
-                        )
-                      ) {
+                      if (value === "" || value.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g)) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(
-                        new Error("Không đúng dạng số điện thoại!")
-                      );
+                      return Promise.reject(new Error("Không đúng dạng số điện thoại!"));
                     },
                   }),
                 ]}
@@ -252,11 +236,7 @@ const AccountManage = () => {
           </RowStyle>
 
           <FormItemStyle>
-            <ButtonFormStyle
-              submit_login="true"
-              type="primary"
-              htmlType="submit"
-            >
+            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
               Cập nhật tài khoản
             </ButtonFormStyle>
           </FormItemStyle>

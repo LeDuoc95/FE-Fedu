@@ -1,11 +1,13 @@
 import { handleActions } from "redux-actions";
 import { loadingAction, errorAction } from "components/action";
 
+// type error || success
 const initialState = {
   loading: false,
   error: {
     message: "",
     description: "",
+    type: "",
   },
 };
 

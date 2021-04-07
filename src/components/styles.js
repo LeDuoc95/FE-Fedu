@@ -55,7 +55,10 @@ export const ImageCard = styled.img`
     props.type === "course" &&
     css`
       width: 100%;
-      height: 160px;
+      /* height: 160px; */
+      min-height: 200px;
+      max-height: 300px;
+      border-radius: 10px;
     `};
 
   ${(props) =>
@@ -104,7 +107,8 @@ export const PriceCard = styled.span`
     props.old &&
     css`
       color: ${TextColorDescriptions};
-      text-decoration: line-through;
+      text-decoration: ${(props) =>
+        props.no_discount ? "none" : "line-through"};
     `};
 
   ${(props) =>

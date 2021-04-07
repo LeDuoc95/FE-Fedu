@@ -55,7 +55,11 @@ const ActivateCourse = () => {
             <InputStyle />
           </FormItemStyle>
           <FormItemStyle>
-            <ButtonFormStyle submit_activate type="primary" htmlType="submit">
+            <ButtonFormStyle
+              submit_activate="true"
+              type="primary"
+              htmlType="submit"
+            >
               Kích hoạt
             </ButtonFormStyle>
           </FormItemStyle>
