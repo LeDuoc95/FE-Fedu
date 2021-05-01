@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { notification, Checkbox } from "antd";
 import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  ExclamationCircleOutlined,
+  CheckCircleOutlined,
+} from "@ant-design/icons";
 import Header from "components/header";
 import Footer from "components/footer";
 import { loginAction, changePasswordAction } from "screens/login/action";
@@ -53,6 +56,7 @@ const FromLogin = ({ formType }) => {
   const isLoading = useSelector((state) => state.common.loading);
   const mesError = useSelector((state) => state.common.error.message);
   const desError = useSelector((state) => state.common.error.description);
+  const typeError = useSelector((state) => state.common.error.type);
 
   const actions = {
     loginAction,
@@ -69,11 +73,20 @@ const FromLogin = ({ formType }) => {
         message: mesError,
         description: desError,
         duration: 2,
-        icon: <ExclamationCircleOutlined style={{ color: "#fc4848" }} />,
+        icon:
+          typeError === "error" ? (
+            <ExclamationCircleOutlined style={{ color: "#fc4848" }} />
+          ) : (
+            <CheckCircleOutlined style={{ color: "#fc4848" }} />
+          ),
         onClick: () =>
-          dispatch(actions.errorAction({ message: "", description: "" })),
+          dispatch(
+            actions.errorAction({ message: "", description: "", type: "" })
+          ),
         onClose: () =>
-          dispatch(actions.errorAction({ message: "", description: "" })),
+          dispatch(
+            actions.errorAction({ message: "", description: "", type: "" })
+          ),
       });
     }
   }, [mesError]);
@@ -106,12 +119,10 @@ const FromLogin = ({ formType }) => {
     }
 
     if (formType === "sign_up") {
-      console.log(`values`, values);
       dispatch(actions.signUpAction(values));
     }
 
     if (formType === "change_password") {
-      // console.log(`values`, values);
       delete values.password_confirm;
       dispatch(actions.changePasswordAction(values));
     }

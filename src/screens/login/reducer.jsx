@@ -13,7 +13,6 @@ const initialState = {
 export default handleActions(
   {
     [loginSuccessAction]: (state, { payload }) => {
-      console.log("payload :>> ", payload);
       return {
         ...state,
         name: payload.name,

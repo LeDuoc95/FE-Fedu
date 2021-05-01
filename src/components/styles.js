@@ -15,7 +15,8 @@ export const WrapperCard = styled.div`
     css`
       min-height: 360px;
       min-width: 180px;
-      max-width: 360px;
+      /* max-width: 360px; */
+      width: 100%;
       box-shadow: 0px 0px 50px 6px rgba(219, 212, 219, 1);
       border-radius: 10px;
       &:hover {
@@ -54,7 +55,10 @@ export const ImageCard = styled.img`
     props.type === "course" &&
     css`
       width: 100%;
-      height: 160px;
+      /* height: 160px; */
+      min-height: 200px;
+      max-height: 300px;
+      border-radius: 10px;
     `};
 
   ${(props) =>
@@ -90,6 +94,7 @@ export const TitleCard = styled.p`
 export const ContentCard = styled.div`
   width: 100%;
   padding: 20px;
+  height: 225px;
 `;
 
 export const AuthorCard = styled.span`
@@ -102,7 +107,8 @@ export const PriceCard = styled.span`
     props.old &&
     css`
       color: ${TextColorDescriptions};
-      text-decoration: line-through;
+      text-decoration: ${(props) =>
+        props.no_discount ? "none" : "line-through"};
     `};
 
   ${(props) =>
@@ -154,8 +160,8 @@ export const DescriptionCardStyle = styled.p`
     props.card_text &&
     css`
       height: 150px;
-      word-wrap: break-word;
-      word-break: break-all;
+      text-align: justify;
+      text-justify: inter-word;
     `}
 `;
 
@@ -233,4 +239,15 @@ export const AvatarStyle = styled.img`
 
 export const SocailStyle = styled.div`
   border-radius: 50%;
+`;
+
+export const ImagesStyle = styled.img`
+  ${(props) =>
+    props.page_not_found &&
+    css`
+      width: ${(props) => (props.width ? props.width : "100%")};
+      height: ${(props) => (props.height ? props.height : "auto")};
+      max-height: 800px;
+      min-height: 200px;
+    `}
 `;
