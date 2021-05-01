@@ -1,5 +1,15 @@
 import styled, { css } from "styled-components";
-import { Row, Button, Input, Form, Pagination, Col } from "antd";
+import {
+  Row,
+  Button,
+  Input,
+  Form,
+  Pagination,
+  Col,
+  Upload,
+  Select,
+  Tree,
+} from "antd";
 import { BoxShawdow, DarkColor } from "components/constants";
 
 export const WrapperPage = styled.div`
@@ -49,9 +59,8 @@ export const RowStyle = styled(Row)`
   ${(props) =>
     props.course &&
     css`
-      border: 1px solid #ccc;
-      box-shadow: ${BoxShawdow};
-      padding: 10px;
+      /* border: 1px solid #ccc;
+      box-shadow: ${BoxShawdow}; */
     `};
 
   ${(props) =>
@@ -61,11 +70,13 @@ export const RowStyle = styled(Row)`
     `};
 
   ${(props) =>
-    props.search &&
+    props.course_search &&
     css`
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      width: 100%;
+      margin: 20px 0;
+      & .ant-col.ant-col-12:nth-last-child(1) {
+        text-align: end;
+      }
     `};
 
   ${(props) =>
@@ -79,11 +90,22 @@ export const RowStyle = styled(Row)`
     `};
 
   ${(props) =>
-    props.card_course &&
+    (props.card_course || props.course_upload_video) &&
     css`
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      max-width: 1599px;
+      margin-bottom: 50px;
+    `};
+
+  ${(props) =>
+    props.course_upload_video &&
+    css`
+      padding: 10px;
+      background: #ebe0e0;
+      height: fit-content;
+      width: 100%;
       max-width: 1599px;
     `};
 
@@ -93,6 +115,19 @@ export const RowStyle = styled(Row)`
       display: flex;
       margin-bottom: 30px;
     `};
+
+  ${(props) =>
+    props.course_upload &&
+    css`
+      max-width: 75%;
+      width: 100%;
+    `};
+
+  ${(props) =>
+    props.row_children &&
+    css`
+      margin: 5px 0;
+    `};
 `;
 
 export const ImageCommon = styled.img`
@@ -101,6 +136,15 @@ export const ImageCommon = styled.img`
     css`
       width: 100vw;
       height: 100vh;
+    `}
+`;
+
+export const ButtonUploadVideo = styled(Button)`
+  ${(props) =>
+    props.upload_video_course &&
+    css`
+      border: none;
+      border-radius: 10px;
     `}
 `;
 
@@ -149,13 +193,32 @@ export const WarrapperForm = styled.div`
       padding: 50px 0;
       width: 100%;
       justify-content: space-between;
-      /* box-shadow: none; */
+    `}
+  ${(props) =>
+    props.course_upload &&
+    css`
+      max-width: unset;
+      width: 100%;
+      min-height: unset;
+      margin: unset;
+      justify-content: space-between;
     `}
 `;
 
 export const InputStyle = styled(Input)`
   border-radius: 20px;
   width: 100%;
+`;
+
+export const SelectStyle = styled(Select)`
+  & .ant-select-selector {
+    border-radius: 20px !important;
+    width: 100%;
+    & .ant-select-selection-overflow {
+      display: flex;
+      align-items: center;
+    }
+  }
 `;
 
 export const InputPasswordStyle = styled(Input.Password)`
@@ -175,12 +238,66 @@ export const FormStyle = styled(Form)`
   margin-top: 50px;
   width: 90%;
   max-width: 1000px;
+  ${(props) =>
+    props.course_upload &&
+    css`
+      width: 100%;
+      max-width: unset;
+      & .ant-col.ant-col-18.ant-form-item-control {
+        width: 100%;
+      }
+    `}
 `;
 
 export const FormItemStyle = styled(Form.Item)`
   display: flex;
   justify-content: center;
   width: 100%;
+`;
+
+export const FormItemCourseStyle = styled(Form.Item)`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+export const UploadImageCourse = styled(Upload)`
+  width: 100%;
+  height: 350px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & .ant-upload-list.ant-upload-list-picture-card {
+    width: 100%;
+    height: 100%;
+    & .ant-upload.ant-upload-select.ant-upload-select-picture-card,
+    .ant-upload-list-picture-card-container {
+      width: 100% !important;
+      height: 100% !important;
+
+      & .ant-upload,
+      .ant-upload-list-item.ant-upload-list-item-done.ant-upload-list-item-list-type-picture-card {
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0px;
+        & .ant-upload-list-item-info {
+          & .ant-upload-span {
+            & a {
+              & img {
+                object-fit: cover;
+              }
+            }
+          }
+          &:before {
+            width: 100%;
+            height: 100%;
+            left: 0px !important;
+          }
+        }
+      }
+    }
+  }
 `;
 
 export const ButtonFormStyle = styled(Button)`
@@ -198,6 +315,36 @@ export const ButtonFormStyle = styled(Button)`
       border-radius: 20px;
       width: 100%;
     `};
+
+  ${(props) =>
+    (props.add_row ||
+      props.remove_row ||
+      props.add_children_row ||
+      props.remove_children_row) &&
+    css`
+      border-radius: 5px;
+      margin: 10px 10px 10px 0;
+    `};
+
+  ${(props) =>
+    props.add_children_row &&
+    css`
+      margin: 0 10px;
+      z-index: 100;
+    `};
+
+  ${(props) =>
+    props.remove_children_row &&
+    css`
+      margin: 0;
+      z-index: 100;
+    `};
+`;
+
+export const ParentStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export const SubtitleStyle = styled.span`
@@ -311,4 +458,90 @@ export const WrapCarouselCardTextStyle = styled.div`
     }
   }
   }
+`;
+
+export const ContentStyle = styled.div`
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 20px;
+  ${(props) =>
+    props.course_list_card &&
+    css`
+      max-width: 1600px;
+    `}
+`;
+
+export const ColStyle = styled(Col)`
+  ${(props) =>
+    props.course_table_content &&
+    css`
+      overflow-y: auto;
+      box-shadow: 0 8px 20px #e3e7ea;
+      padding: 15px;
+      max-height: 300px;
+      /* height: fit-content; */
+      border-radius: 7px;
+      margin-top: 40px;
+      border: 1px solid #d5d0d0;
+      & a {
+        margin: 1em 0;
+      }
+    `}
+
+  ${(props) =>
+    props.course_list_card &&
+    css`
+      padding: 20px;
+      /* background: #e3e7ea40; */
+    `}
+
+  ${(props) =>
+    props.row_children &&
+    css`
+      font-size: ${(props) => (props.font_size ? props.font_size : "14px")};
+    `}
+
+  ${(props) =>
+    props.name_video &&
+    css`
+      padding-left: 20px;
+    `}
+`;
+
+export const UploadVideoCourseStyle = styled(Upload)`
+  width: 100%;
+`;
+
+export const TreeCourseStyle = styled(Tree)`
+  width: 100%;
+  margin-top: 20px;
+  padding: 20px 0;
+  background: #e8e8e8;
+  & .ant-tree-list-holder-inner {
+    width: 100%;
+    & .ant-tree-treenode {
+      width: 100%;
+      & .ant-tree-node-content-wrapper {
+        width: 100%;
+      }
+    }
+  }
+`;
+
+export const TitleStyle = styled.div`
+  width: 100%;
+  text-align: center;
+  margin: 20px 0;
+`;
+
+export const NoCourseStyle = styled.div`
+  font-weight: 600;
+  color: #1890ff;
+  font-size: 30px;
+  height: 500px;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

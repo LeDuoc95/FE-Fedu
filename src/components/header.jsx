@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
+
 import {
   MenuStyleForHeader,
   MenuItemStyleForHeader,
@@ -73,6 +74,9 @@ const Header = () => {
     >
       <MenuItemStyleForHeader key="course">
         <Link to="/course">Khóa học</Link>
+      </MenuItemStyleForHeader>
+      <MenuItemStyleForHeader key="create-course">
+        <Link to="/course/create">Tạo khóa học</Link>
       </MenuItemStyleForHeader>
       <MenuItemStyleForHeader key="active-course">
         <Link to="/activate">Kích hoạt khóa học</Link>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Carousel } from "antd";
+import { v4 as uuidv4 } from "uuid";
 
 import Header from "components/header";
 import Card from "components/card";
@@ -85,10 +86,18 @@ const dataChoiceUs = [
 const Home = () => {
   const renderFeelOfStudent = () => {
     const content = dataFeeling.map((item) => (
-      <WrapCarouselCardTextStyle>
+      <WrapCarouselCardTextStyle key={uuidv4()}>
         <RowStyle home="true" gutter={[16, 16]}>
           {item.map((val) => (
-            <ColCardTextStyle xs={24} sm={12} md={8} lg={8} xl={8} xxl={8}>
+            <ColCardTextStyle
+              key={uuidv4()}
+              xs={24}
+              sm={12}
+              md={8}
+              lg={8}
+              xl={8}
+              xxl={8}
+            >
               <CardText
                 name={val.name}
                 img={val.avatar}
@@ -198,7 +207,7 @@ const Home = () => {
         <TitleContentHome> Tại sao chọn chúng tôi? </TitleContentHome>
         <RowStyle home="true" gutter={[16, 16]}>
           {dataChoiceUs.map((item) => (
-            <Col xs={24} sm={12} md={7} lg={7} xl={7} xxl={7}>
+            <Col key={uuidv4()} xs={24} sm={12} md={7} lg={7} xl={7} xxl={7}>
               <Card
                 type="choice"
                 description_choice_us={item.des}

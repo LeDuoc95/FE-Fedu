@@ -14,9 +14,7 @@ function* changeInfoAccountSagas() {
         yield put(loginSuccessAction({ ...response.body }));
       }
     } catch (error) {
-      yield put(
-        errorAction({ message: "Cập nhật thất bại!", description: "" })
-      );
+      yield put(errorAction({ message: "Cập nhật thất bại!", description: "", type: "error" }));
     } finally {
       yield put(loadingAction(false));
     }
