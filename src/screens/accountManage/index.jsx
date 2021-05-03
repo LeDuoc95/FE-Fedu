@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Upload, Col, Form, notification } from "antd";
+import { Upload, Col, Form } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 import Header from "components/header";
 import Footer from "components/footer";
 import Loading from "components/loading";
 import { changeAccountAction } from "screens/accountManage/action";
+import { openNotification } from "components/notifination";
 
 import { TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";
@@ -80,13 +81,7 @@ const AccountManage = () => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    // notification.open({
-    //   message: "Cập nhật thất bại!",
-    //   description: errorInfo,
-    //   onClick: () => {
-    //     console.log("Notification Clicked!");
-    //   },
-    // });
+    return openNotification({ message: "Cập nhật thất bại!" });
   };
 
   const uploadButton = (
@@ -102,7 +97,7 @@ const AccountManage = () => {
       const formData = new FormData();
       formData.append("imagesUser", fileList[0].originFileObj);
 
-      fetch(`${API_URL}` + "user/upload-images", {
+      fetch(`${API_URL}user/upload-images`, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + `${authorization}`,
@@ -123,6 +118,7 @@ const AccountManage = () => {
         })
         .catch(function (error) {
           console.log("Request failed", error);
+          return openNotification({ message: "Request failed!" });
         });
     }
     setListFile(fileList);

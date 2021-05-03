@@ -1,24 +1,8 @@
 import { call, put, takeLatest, delay } from "redux-saga/effects";
 import { push } from "react-router-redux";
-import {
-  getCourseAction,
-  getCourseSuccessAction,
-  createCourseAction,
-  updateCourseAction,
-  deleteCourseAction,
-  getDetailCourseAction,
-  getDetailCourseSuccessAction,
-  getTeacherSuccessAction,
-  getTeacherAction,
-} from "screens/course/action";
+import { getCourseAction, getCourseSuccessAction, createCourseAction, updateCourseAction, deleteCourseAction, getDetailCourseAction, getDetailCourseSuccessAction, getTeacherSuccessAction, getTeacherAction } from "screens/course/action";
 import { loadingAction, errorAction } from "components/action";
-import {
-  createCourseRequest,
-  getCourseRequest,
-  getDetailCourseRequest,
-  updateCourseRequest,
-  deleteCourseRequest,
-} from "services/request/course";
+import { createCourseRequest, getCourseRequest, getDetailCourseRequest, updateCourseRequest, deleteCourseRequest } from "services/request/course";
 
 import { getTeacherRequest } from "services/request/user";
 
@@ -94,7 +78,6 @@ function* getAllCourseSagas() {
       if (!payload.search) {
         payload.search = [];
       }
-      console.log("payload :>> ", payload);
       yield put(loadingAction(true));
       const response = yield call(getCourseRequest, payload);
       if (Array.isArray(response.body)) {
@@ -123,6 +106,14 @@ function* getDetailCourseSagas() {
       if (Array.isArray(response.body)) {
         yield put(getDetailCourseSuccessAction(response.body[0]));
       } else {
+        yield put(
+          errorAction({
+            message: "khóa học Không tồn tại!",
+            description: "",
+            type: "error",
+          })
+        );
+        yield put(delay(500));
         yield put(push(`/page-not-found`));
       }
     } catch (error) {
