@@ -9,6 +9,8 @@ import SignUp from "screens/signUp";
 import AccountManage from "screens/accountManage";
 import TermsAndPrivacyPolicy from "screens/TermsAndPrivacyPolicy";
 import PageNotFound from "components/pageNotFound";
+import PaymentComponent from "screens/course/payment";
+
 const App = () => {
   return (
     // <Router>
@@ -22,6 +24,9 @@ const App = () => {
         </Route>
         <Route exact path={["/course/create", "/course/:id"]}>
           <UploadCourse />
+        </Route>
+        <Route exact path="/payment/:id">
+          <PaymentComponent />
         </Route>
         <Route path="/activate">
           <ActivateCourse />
@@ -47,7 +52,7 @@ const App = () => {
         <Route path="/privacy-policy">
           <TermsAndPrivacyPolicy type="privacy-policy" />
         </Route>
-        <Route path="/page-not-found">
+        <Route path={["/page-not-found", ""]}>
           <PageNotFound />
         </Route>
       </Switch>
