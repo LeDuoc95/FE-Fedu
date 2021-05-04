@@ -8,7 +8,7 @@ import Header from "components/header";
 import Footer from "components/footer";
 import Loading from "components/loading";
 import { changeAccountAction } from "screens/accountManage/action";
-import { openNotification } from "components/notifination";
+import openNotification from "components/notifination";
 
 import { TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";

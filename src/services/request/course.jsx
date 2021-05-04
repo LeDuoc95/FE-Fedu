@@ -82,3 +82,15 @@ export const deleteCourseRequest = async ({ id }) => {
   );
   return response;
 };
+
+export const activateCourseRequest = async ({ key_active }) => {
+  console.log("key_active :>> ", key_active);
+  const urlActivateCourseRequest = `${URL_COURSE}/activate`;
+  const response = await requestConfig.fetchPost(
+    "json",
+    Token,
+    urlActivateCourseRequest,
+    { key_active }
+  );
+  return response;
+};

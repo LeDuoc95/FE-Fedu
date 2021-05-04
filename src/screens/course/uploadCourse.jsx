@@ -15,7 +15,7 @@ import ComfirmComponent from "components/comfirm";
 import AuthorComponent from "components/author";
 import PaymentComponent from "screens/course/payer";
 import { changeAccountAction } from "screens/accountManage/action";
-import { openNotification } from "components/notifination";
+import openNotification from "components/notifination";
 
 import { getCourseAction, createCourseAction, updateCourseAction, deleteCourseAction, getDetailCourseAction } from "screens/course/action";
 

@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import Header from "components/header";
 import Footer from "components/footer";
 import {
@@ -10,6 +12,7 @@ import {
   FormItemStyle,
   ButtonFormStyle,
 } from "screens/style";
+import { activeCourseAction } from "screens/activate/actions";
 
 const layout = {
   labelCol: {
@@ -21,8 +24,15 @@ const layout = {
 };
 
 const ActivateCourse = () => {
+  const dispatch = useDispatch();
+
+  const actions = {
+    activeCourseAction,
+  };
+
   const onFinish = (values) => {
     console.log("Success:", values);
+    dispatch(actions.activeCourseAction({ key_active: values.code }));
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -44,7 +54,7 @@ const ActivateCourse = () => {
           onFinishFailed={onFinishFailed}
         >
           <FormItemStyle
-            name="username"
+            name="code"
             rules={[
               {
                 required: true,
