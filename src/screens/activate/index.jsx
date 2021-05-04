@@ -1,15 +1,10 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import Header from "components/header";
 import Footer from "components/footer";
-import {
-  WrapperPage,
-  WarrapperForm,
-  TitleContentHome,
-  InputStyle,
-  FormStyle,
-  FormItemStyle,
-  ButtonFormStyle,
-} from "screens/style";
+import { WrapperPage, WarrapperForm, TitleContentHome, InputStyle, FormStyle, FormItemStyle, ButtonFormStyle } from "screens/style";
+import { activeCourseAction } from "screens/activate/actions";
 
 const layout = {
   labelCol: {
@@ -21,8 +16,15 @@ const layout = {
 };
 
 const ActivateCourse = () => {
+  const dispatch = useDispatch();
+
+  const actions = {
+    activeCourseAction,
+  };
+
   const onFinish = (values) => {
     console.log("Success:", values);
+    dispatch(actions.activeCourseAction({ code: values.code }));
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -44,7 +46,7 @@ const ActivateCourse = () => {
           onFinishFailed={onFinishFailed}
         >
           <FormItemStyle
-            name="username"
+            name="code"
             rules={[
               {
                 required: true,
@@ -55,11 +57,7 @@ const ActivateCourse = () => {
             <InputStyle />
           </FormItemStyle>
           <FormItemStyle>
-            <ButtonFormStyle
-              submit_activate="true"
-              type="primary"
-              htmlType="submit"
-            >
+            <ButtonFormStyle submit_activate="true" type="primary" htmlType="submit">
               Kích hoạt
             </ButtonFormStyle>
           </FormItemStyle>

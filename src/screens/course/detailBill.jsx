@@ -10,7 +10,7 @@ import { ShoppingCartOutlined, CloseCircleTwoTone, CheckCircleTwoTone } from "@a
 import { signUpAction } from "screens/signUp/action";
 import openNotification from "components/notifination";
 
-import { InputStyle, FormStyle, FormItemStyle, ButtonFormStyle, RowStyle, ColStyle, ButtonStyle, TagAStyle, DetailBillStyle, ImageCommonStyle, NameOfCourseStyle, PriceOfCourseStyle, WapperContentStyle, IconInputStyle } from "screens/style";
+import { InputStyle, FormStyle, FormItemStyle, RowStyle, DetailBillStyle, ImageCommonStyle, NameOfCourseStyle, PriceOfCourseStyle, WapperContentStyle, IconInputStyle } from "screens/style";
 
 import { TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";
