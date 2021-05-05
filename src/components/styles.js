@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Menu, Spin } from "antd";
+import { Menu, Spin, Col } from "antd";
 import { TextColorDescriptions, TextColorBlue } from "components/constants";
 import FacebookLogin from "react-facebook-login";
 
@@ -249,5 +249,45 @@ export const ImagesStyle = styled.img`
       height: ${(props) => (props.height ? props.height : "auto")};
       max-height: 800px;
       min-height: 200px;
+    `}
+  ${(props) =>
+    props.author &&
+    css`
+      width: ${(props) => (props.width ? props.width : "100%")};
+      height: ${(props) => (props.height ? props.height : "auto")};
+      max-height: 800px;
+      min-height: 200px;
+      border-radius: 50%;
+    `}
+`;
+
+export const ColStyle = styled(Col)`
+  ${(props) =>
+    (props.author || props.payer) &&
+    css`
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-item: center;
+      text-align: center;
+    `};
+  ${(props) =>
+    props.payer &&
+    css`
+      background: lightblue;
+      margin-right: 1px;
+      height: 150px;
+      padding: 20px;
+    `}
+`;
+
+export const WrapperPageStyle = styled.div`
+  ${(props) =>
+    (props.author || props.payer) &&
+    css`
+      margin: 50px 0;
+      display: flex;
+      justify-content: center;
+      width: 100%;
     `}
 `;

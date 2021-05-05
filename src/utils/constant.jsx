@@ -10,6 +10,10 @@ export const ID_TOKEN = "id_token";
 
 export const TYPE_COURSE_OPTION = [
   {
+    label: "Tất cả khóa học",
+    value: null,
+  },
+  {
     label: "Back-End",
     value: 0,
   },

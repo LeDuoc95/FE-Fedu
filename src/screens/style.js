@@ -1,15 +1,5 @@
 import styled, { css } from "styled-components";
-import {
-  Row,
-  Button,
-  Input,
-  Form,
-  Pagination,
-  Col,
-  Upload,
-  Select,
-  Tree,
-} from "antd";
+import { Row, Button, Input, Form, Pagination, Col, Upload, Select, Tree } from "antd";
 import { BoxShawdow, DarkColor } from "components/constants";
 
 export const WrapperPage = styled.div`
@@ -20,12 +10,7 @@ export const WrapperPage = styled.div`
   ${(props) =>
     props.course &&
     css`
-      /* background: #f7f7f7;
-      justify-content: center;
-      align-items: center; */
       width: 100%;
-      /* background: white;
-      color: black; */
     `};
 
   ${(props) =>
@@ -40,11 +25,12 @@ export const WrapperPage = styled.div`
     `};
 
   ${(props) =>
-    props.login &&
+    (props.login || props.payment) &&
     css`
       min-height: 100vh;
       align-items: center;
       width: 100%;
+      background: ${(props) => (props.bg ? props.bg : "white")};
     `}
 `;
 
@@ -57,10 +43,12 @@ export const TitleContentHome = styled.div`
 
 export const RowStyle = styled(Row)`
   ${(props) =>
-    props.course &&
+    props.input_detail_bill &&
     css`
-      /* border: 1px solid #ccc;
-      box-shadow: ${BoxShawdow}; */
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgb(205 177 205);
     `};
 
   ${(props) =>
@@ -107,6 +95,9 @@ export const RowStyle = styled(Row)`
       height: fit-content;
       width: 100%;
       max-width: 1599px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     `};
 
   ${(props) =>
@@ -130,13 +121,13 @@ export const RowStyle = styled(Row)`
     `};
 `;
 
-export const ImageCommon = styled.img`
+export const ImageCommonStyle = styled.img`
   ${(props) =>
-    props.home &&
+    (props.home || props.detail_bill) &&
     css`
-      width: 100vw;
-      height: 100vh;
-    `}
+      width: ${(props) => (props.width ? props.width : "100vw")};
+      height: ${(props) => (props.height ? props.height : "100vh")};
+    `}/* ${(props) => props.detail_bill && css``} */
 `;
 
 export const ButtonUploadVideo = styled(Button)`
@@ -156,13 +147,17 @@ export const ButtonStyle = styled(Button)`
   padding: 10px 30px;
   border-radius: 50px;
   line-height: 1.5;
-  margin-bottom: 50px;
   display: flex;
   align-items: center;
   &:hover {
     color: white;
     background-color: #2a75ab;
   }
+  ${(props) =>
+    props.register_payment &&
+    css`
+      padding: 5px 15px;
+    `}
 `;
 
 export const WhyChoiceUsStyle = styled.div`
@@ -208,6 +203,11 @@ export const WarrapperForm = styled.div`
 export const InputStyle = styled(Input)`
   border-radius: 20px;
   width: 100%;
+  ${(props) =>
+    props.register_payment &&
+    css`
+      background: "red";
+    `}
 `;
 
 export const SelectStyle = styled(Select)`
@@ -247,12 +247,31 @@ export const FormStyle = styled(Form)`
         width: 100%;
       }
     `}
+  ${(props) =>
+    (props.register_payment || props.detail_bill) &&
+    css`
+      border: 1px solid blanchedalmond;
+      border-radius: 10px;
+      background: white;
+      padding: 10px 0;
+      box-shadow: 0px 0px 30px 0px rgb(219 92 219);
+      margin-top: 20px;
+      width: 100%;
+    `}
 `;
 
 export const FormItemStyle = styled(Form.Item)`
   display: flex;
   justify-content: center;
   width: 100%;
+  border-bottom: ${(props) => (props.bb ? props.bb : "unset")};
+  ${(props) =>
+    (props.register_acc || props.detail_bill) &&
+    css`
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 20px;
+    `}
 `;
 
 export const FormItemCourseStyle = styled(Form.Item)`
@@ -317,10 +336,7 @@ export const ButtonFormStyle = styled(Button)`
     `};
 
   ${(props) =>
-    (props.add_row ||
-      props.remove_row ||
-      props.add_children_row ||
-      props.remove_children_row) &&
+    (props.add_row || props.remove_row || props.add_children_row || props.remove_children_row) &&
     css`
       border-radius: 5px;
       margin: 10px 10px 10px 0;
@@ -468,16 +484,30 @@ export const ContentStyle = styled.div`
     props.course_list_card &&
     css`
       max-width: 1600px;
-    `}
+    `};
+
+  ${(props) =>
+    props.payment &&
+    css`
+      margin-top: 15px;
+      max-width: 1400px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: lightblue;
+    `};
 `;
 
 export const ColStyle = styled(Col)`
   ${(props) =>
     props.course_table_content &&
     css`
+      overflow-y: auto;
       box-shadow: 0 8px 20px #e3e7ea;
       padding: 15px;
-      height: fit-content;
+      max-height: 300px;
+      /* height: fit-content; */
       border-radius: 7px;
       margin-top: 40px;
       border: 1px solid #d5d0d0;
@@ -504,6 +534,12 @@ export const ColStyle = styled(Col)`
     css`
       padding-left: 20px;
     `}
+  ${(props) =>
+    props.payer &&
+    css`
+      min-height: 150px;
+      display: flex;
+    `}
 `;
 
 export const UploadVideoCourseStyle = styled(Upload)`
@@ -529,5 +565,145 @@ export const TreeCourseStyle = styled(Tree)`
 export const TitleStyle = styled.div`
   width: 100%;
   text-align: center;
+  margin: 20px 0;
+  ${(props) =>
+    props.register_acc &&
+    css`
+      text-align: start;
+      margin: 10px 0;
+      font-weight: 600;
+    `}
+`;
+
+export const NoCourseStyle = styled.div`
+  font-weight: 600;
+  color: #1890ff;
+  font-size: 30px;
+  height: 500px;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const StepPaymentStyle = styled.div`
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: lightblue;
+  border-bottom: 1px solid paleturquoise;
+`;
+
+export const TitlePaymentStyle = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  opacity: ${(props) => (props.opacity ? props.opacity : 1)};
+  margin-right: 5px;
+  ${(props) =>
+    props.paying &&
+    css`
+      justify-content: flex-end;
+    `}
+  ${(props) =>
+    props.payment_finish &&
+    css`
+      justify-content: flex-start;
+    `}
+`;
+
+export const SpanStyle = styled.span`
+  ${(props) =>
+    (props.paying || props.payment_finish) &&
+    css`
+      margin-right: 4px;
+      border: 2px solid black;
+      border-radius: 50%;
+      padding: 2px 8px;
+    `}
+`;
+
+export const TagPStyle = styled.p`
+  ${(props) =>
+    props.QA_code &&
+    css`
+      font-style: italic;
+      margin-top: 20px;
+    `}
+`;
+
+export const DetailBillStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+  align-items: center;
+  border-bottom: 1px solid rgb(205 177 205);
+  padding-bottom: 10px;
+`;
+
+export const NameOfCourseStyle = styled.div`
+  font-weight: 600;
+  text-align: justify;
+  text-justify: inter-word;
+  padding: 0 10px;
+`;
+
+export const PriceOfCourseStyle = styled.div`
+  font-weight: 600;
+`;
+
+export const WapperContentStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  ${(props) =>
+    props.input_detail_bill &&
+    css`
+      display: flex;
+      flex-direction: column;
+      color: peru;
+      width: 78%;
+    `}
+
+  ${(props) =>
+    props.title_detail_bill &&
+    css`
+      border-bottom: 1px solid rgb(205 177 205);
+      padding-bottom: 20px;
+    `}
+
+  ${(props) =>
+    props.total_payment_bill &&
+    css`
+      padding-bottom: 20px;
+      justify-content: space-between;
+      cursor: unset;
+      font-weight: 600;
+    `}
+
+  ${(props) =>
+    props.QA_code &&
+    css`
+      flex-direction: column;
+    `}
+`;
+
+export const IconInputStyle = styled.div`
+  display: flex;
+  width: 20%;
+`;
+
+export const ImplementPaymentStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin: 20px 0;
 `;
