@@ -14,7 +14,7 @@ function* SignUpSaga() {
       let data = {};
       const payload = (!!action && !!action.payload && action.payload) || {};
       yield put(loadingAction(true));
-
+      console.log(`payload`, payload);
       if (!payload.type) {
         data = { ...payload };
         delete payload.agreement;
