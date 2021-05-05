@@ -6,12 +6,12 @@ const Token = localStorage.getToken(TOKEN_KEY_BE);
 
 export const createCourseRequest = async (data) => {
   const urlCreateCourse = `${URL_COURSE}/create`;
-  const response = await requestConfig.fetchPost("json", Token, urlCreateCourse, data);
+  const response = await requestConfig.fetchPost("json", localStorage.getToken(TOKEN_KEY_BE), urlCreateCourse, data);
   return response;
 };
 
 export const updateCourseRequest = async (data) => {
-  const response = await requestConfig.fetchPut("json", Token, `${URL_COURSE}/update/${data.id}`, data);
+  const response = await requestConfig.fetchPut("json", localStorage.getToken(TOKEN_KEY_BE), `${URL_COURSE}/update/${data.id}`, data);
   return response;
 };
 
@@ -31,7 +31,7 @@ export const getCourseRequest = async (data) => {
   if (searchUrl) {
     urlGetCourse = `${URL_COURSE}/list?page=${data.page}${searchUrl}`;
   }
-  const response = await requestConfig.fetchGet("json", Token, urlGetCourse, "");
+  const response = await requestConfig.fetchGet("json", localStorage.getToken(TOKEN_KEY_BE), urlGetCourse, "");
   return response;
 };
 
@@ -43,18 +43,19 @@ export const getCourseForAdminAndLecturerRequest = async () => {
 
 export const getDetailCourseRequest = async ({ id }) => {
   const urlgetDetailCourseRequest = `${URL_COURSE}/list/${id}`;
-  const response = await requestConfig.fetchGet("json", Token, urlgetDetailCourseRequest, "");
+  const response = await requestConfig.fetchGet("json", localStorage.getToken(TOKEN_KEY_BE), urlgetDetailCourseRequest, "");
   return response;
 };
 
 export const deleteCourseRequest = async ({ id }) => {
   const urlDeleteCourseRequest = `${URL_COURSE}/delete/${id}`;
-  const response = await requestConfig.fetchDelete("json", Token, urlDeleteCourseRequest, "");
+  const response = await requestConfig.fetchDelete("json", localStorage.getToken(TOKEN_KEY_BE), urlDeleteCourseRequest, "");
   return response;
 };
 
-export const activateCourseRequest = async ({ code }) => {
+export const activateCourseRequest = async ({ key_active }) => {
+  console.log("key_active :>> ", key_active);
   const urlActivateCourseRequest = `${URL_COURSE}/activate`;
-  const response = await requestConfig.fetchPost("json", Token, urlActivateCourseRequest, { code });
+  const response = await requestConfig.fetchPost("json", localStorage.getToken(TOKEN_KEY_BE), urlActivateCourseRequest, { key_active });
   return response;
 };

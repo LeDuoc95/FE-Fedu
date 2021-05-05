@@ -1,4 +1,4 @@
-import { call, put, takeLatest, delay } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { push } from "react-router-redux";
 import { activeCourseAction } from "screens/activate/actions";
 import { loadingAction, errorAction } from "components/action";
@@ -10,7 +10,6 @@ function* activateCourseSaga() {
       const payload = (!!action && !!action.payload && action.payload) || {};
       yield put(loadingAction(true));
       const response = yield call(activateCourseRequest, payload);
-      console.log(`response`, response);
       if (response.body.id) {
         yield put(
           errorAction({
@@ -20,6 +19,14 @@ function* activateCourseSaga() {
           })
         );
         yield put(push(`/course/${response.body.id}`));
+      } else {
+        yield put(
+          errorAction({
+            message: "Mã không tồn tại hoặc đã được sử dụng!",
+            description: "",
+            type: "error",
+          })
+        );
       }
     } catch (error) {
       yield put(
