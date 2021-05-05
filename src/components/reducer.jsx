@@ -24,7 +24,6 @@ export default handleActions(
           ...state.error,
           message: payload.message,
           description: payload.description || "",
-          type: payload.type || "error",
         },
       };
     },

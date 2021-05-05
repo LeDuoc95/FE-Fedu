@@ -6,7 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
 
-import { MenuStyleForHeader, MenuItemStyleForHeader, AccountStyle, AvatarStyle } from "components/styles";
+import {
+  MenuStyleForHeader,
+  MenuItemStyleForHeader,
+  AccountStyle,
+  AvatarStyle,
+} from "components/styles";
 import { refreshTokenAction } from "components/action";
 import { logoutAction } from "screens/login/action";
 import localStorage from "utils/localStorage";
@@ -14,7 +19,7 @@ import { TOKEN_KEY_BE, REFESH_TOKEN_KEY_BE } from "utils/constant";
 
 const API_URL = process.env.REACT_APP_HOST;
 
-const Header = ({ type }) => {
+const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [current, setCurrent] = useState("course");
@@ -62,38 +67,41 @@ const Header = ({ type }) => {
   );
 
   return (
-    <MenuStyleForHeader onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-      {type === "payment" && (
-        <MenuItemStyleForHeader key="home">
-          <Link to="/">Trang chủ</Link>
-        </MenuItemStyleForHeader>
-      )}
-
-      {!type && (
-        <>
-          <MenuItemStyleForHeader key="course">
-            <Link to="/course">Khóa học</Link>
-          </MenuItemStyleForHeader>
-          <MenuItemStyleForHeader key="create-course">
-            <Link to="/course/create">Tạo khóa học</Link>
-          </MenuItemStyleForHeader>
-          <MenuItemStyleForHeader key="active-course">
-            <Link to="/activate">Kích hoạt khóa học</Link>
-          </MenuItemStyleForHeader>
-          <MenuItemStyleForHeader key="login">
-            {!userName ? (
-              <Link to="/login">Đăng nhập</Link>
-            ) : (
-              <Dropdown overlay={menu} trigger={["click"]}>
-                <AccountStyle className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-                  <AvatarStyle src={`${API_URL}` + "media/" + `${photo?.path}` || "https://i.imgur.com/nexvWcY.jpg"} alt="avatar" />
-                  <span>{userName}</span>
-                </AccountStyle>
-              </Dropdown>
-            )}
-          </MenuItemStyleForHeader>
-        </>
-      )}
+    <MenuStyleForHeader
+      onClick={handleClick}
+      selectedKeys={[current]}
+      mode="horizontal"
+    >
+      <MenuItemStyleForHeader key="course">
+        <Link to="/course">Khóa học</Link>
+      </MenuItemStyleForHeader>
+      <MenuItemStyleForHeader key="create-course">
+        <Link to="/course/create">Tạo khóa học</Link>
+      </MenuItemStyleForHeader>
+      <MenuItemStyleForHeader key="active-course">
+        <Link to="/activate">Kích hoạt khóa học</Link>
+      </MenuItemStyleForHeader>
+      <MenuItemStyleForHeader key="login">
+        {!userName ? (
+          <Link to="/login">Đăng nhập</Link>
+        ) : (
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <AccountStyle
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+            >
+              <AvatarStyle
+                src={
+                  `${API_URL}` + "media/" + `${photo?.path}` ||
+                  "https://i.imgur.com/nexvWcY.jpg"
+                }
+                alt="avatar"
+              />
+              <span>{userName}</span>
+            </AccountStyle>
+          </Dropdown>
+        )}
+      </MenuItemStyleForHeader>
     </MenuStyleForHeader>
   );
 };

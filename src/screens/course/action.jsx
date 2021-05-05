@@ -9,8 +9,6 @@ const actions = createActions({
   DELETE_COURSE_ACTION: null,
   GET_DETAIL_COURSE_ACTION: null,
   GET_DETAIL_COURSE_SUCCESS_ACTION: null,
-  GET_TEACHER_SUCCESS_ACTION: null,
-  GET_TEACHER_ACTION: null,
 });
 
 export const {
@@ -22,6 +20,4 @@ export const {
   deleteCourseAction,
   getDetailCourseAction,
   getDetailCourseSuccessAction,
-  getTeacherSuccessAction,
-  getTeacherAction,
 } = actions;

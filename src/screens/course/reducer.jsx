@@ -2,15 +2,15 @@ import { handleActions } from "redux-actions";
 import {
   getCourseSuccessAction,
   createCourseAction,
+  updateCourseAction,
+  deleteCourseAction,
   getDetailCourseSuccessAction,
-  getTeacherSuccessAction,
 } from "screens/course/action";
 
 const initialState = {
   course: [],
   paging: {},
   currentCourse: {},
-  listTeacher: [],
 };
 
 export default handleActions(
@@ -20,12 +20,6 @@ export default handleActions(
         ...state,
         course: payload.body,
         paging: payload.paging,
-      };
-    },
-    [getTeacherSuccessAction]: (state, { payload }) => {
-      return {
-        ...state,
-        listTeacher: payload,
       };
     },
     [createCourseAction]: (state) => ({ ...initialState }),

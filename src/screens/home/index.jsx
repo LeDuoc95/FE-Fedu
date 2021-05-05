@@ -1,17 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Col, Carousel } from "antd";
-import { v4 as uuidv4 } from "uuid";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { uid } from "uid";
 
 import Header from "components/header";
 import Card from "components/card";
 import Footer from "components/footer";
 import CardText from "components/cardText";
 import { sliceText } from "utils/ultils";
-import { getCourseAction, getTeacherAction } from "screens/course/action";
 
-import { WrapperPage, ImageCommonStyle, RowStyle, TitleContentHome, ButtonStyle, ColCardTextStyle, WhyChoiceUsStyle, WrapCarouselCardTextStyle, NoCourseStyle } from "screens/style";
+import { WrapperPage, ImageCommon, RowStyle, TitleContentHome, ButtonStyle, ColCardTextStyle, WhyChoiceUsStyle, WrapCarouselCardTextStyle } from "screens/style";
 
 const dataFeeling = [
   [
@@ -71,23 +68,12 @@ const dataChoiceUs = [
 ];
 
 const Home = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  const allCourse = useSelector((state) => state.course.course);
-
-  const actions = { getCourseAction, getTeacherAction };
-
-  useEffect(() => {
-    dispatch(actions.getCourseAction({}));
-  }, []);
-
   const renderFeelOfStudent = () => {
     const content = dataFeeling.map((item) => (
-      <WrapCarouselCardTextStyle key={uuidv4()}>
+      <WrapCarouselCardTextStyle key={uid(5)}>
         <RowStyle home="true" gutter={[16, 16]}>
           {item.map((val) => (
-            <ColCardTextStyle key={uuidv4()} xs={24} sm={12} md={8} lg={8} xl={8} xxl={8}>
+            <ColCardTextStyle key={uid(5)} xs={24} sm={12} md={8} lg={8} xl={8} xxl={8}>
               <CardText name={val.name} img={val.avatar} description_card_text={sliceText(200, val.des)} />
             </ColCardTextStyle>
           ))}
@@ -97,33 +83,40 @@ const Home = () => {
     return content;
   };
 
-  const renderCourse = () => {
-    let listCourse = allCourse.map((item) => (
-      <Col key={uuidv4()} xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
-        <Card type="course" img={item?.photo?.photo || "https://i.imgur.com/0jk1ek2.jpg"} author={item.user} title={item.title} old_price={item?.old_price} new_price={item?.new_price} />
-      </Col>
-    ));
-    if (listCourse.length < 1) {
-      listCourse = <NoCourseStyle>Không có khóa học nào!</NoCourseStyle>;
-    }
-
-    return listCourse;
-  };
-
   return (
     <WrapperPage home="true">
       <Header />
-      <ImageCommonStyle home="true" src="/images/banner.png" alt="banner" />
-      <TitleContentHome>Khóa học</TitleContentHome>
+      <ImageCommon home="true" src="/images/banner.png" alt="banner" />
+      <TitleContentHome>Lorem Ipsum</TitleContentHome>
       <RowStyle home="true" gutter={[16, 16]}>
-        {renderCourse()}
+        <Col xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
+          <Card type="course" img={"https://i.imgur.com/nexvWcY.jpg"} author={"Johon Doe"} title={"Lorem Ipsum is simply dummy text of the printing and typesetting industry."} old_price={"123456$"} new_price={"123456$"} />
+        </Col>
+        <Col xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
+          <Card type="course" img={"https://i.imgur.com/nexvWcY.jpg"} author={"Johon Doe"} title={"Lorem Ipsum is simply dummy text of the printing and typesetting industry."} old_price={"123456$"} new_price={"123456$"} />
+        </Col>
+        <Col xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
+          <Card type="course" img={"https://i.imgur.com/nexvWcY.jpg"} author={"Johon Doe"} title={"Lorem Ipsum is simply dummy text of the printing and typesetting industry."} old_price={"123456$"} new_price={"123456$"} />
+        </Col>
+        <Col xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
+          <Card type="course" img={"https://i.imgur.com/nexvWcY.jpg"} author={"Johon Doe"} title={"Lorem Ipsum is simply dummy text of the printing and typesetting industry."} old_price={"123456$"} new_price={"123456$"} />
+        </Col>
+        <Col xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
+          <Card type="course" img={"https://i.imgur.com/nexvWcY.jpg"} author={"Johon Doe"} title={"Lorem Ipsum is simply dummy text of the printing and typesetting industry."} old_price={"123456$"} new_price={"123456$"} />
+        </Col>
+        <Col xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
+          <Card type="course" img={"https://i.imgur.com/nexvWcY.jpg"} author={"Johon Doe"} title={"Lorem Ipsum is simply dummy text of the printing and typesetting industry."} old_price={"123456$"} new_price={"123456$"} />
+        </Col>
+        <Col xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
+          <Card type="course" img={"https://i.imgur.com/nexvWcY.jpg"} author={"Johon Doe"} title={"Lorem Ipsum is simply dummy text of the printing and typesetting industry."} old_price={"123456$"} new_price={"123456$"} />
+        </Col>
       </RowStyle>
-      <ButtonStyle onClick={() => history.push("course")}>Xem tất cả</ButtonStyle>
+      <ButtonStyle>Xem tất cả</ButtonStyle>
       <WhyChoiceUsStyle>
         <TitleContentHome> Tại sao chọn chúng tôi? </TitleContentHome>
         <RowStyle home="true" gutter={[16, 16]}>
           {dataChoiceUs.map((item) => (
-            <Col key={uuidv4()} xs={24} sm={12} md={7} lg={7} xl={7} xxl={7}>
+            <Col key={uid(5)} xs={24} sm={12} md={7} lg={7} xl={7} xxl={7}>
               <Card type="choice" description_choice_us={item.des} img={item.image} title={item.title} />
             </Col>
           ))}
