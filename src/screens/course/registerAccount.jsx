@@ -62,6 +62,10 @@ const RegisterAccountComponent = ({ setCanPay }) => {
     setEmailCheck(value.target.value);
   };
 
+  const handleSignUpUser = () => {
+    dispatch(actions.signUpAction(form.getFieldsValue()));
+  };
+
   const handleCheckEmail = () => {
     fetch(`${API_URL}user/check-email-exist`, {
       method: "POST",
@@ -224,7 +228,7 @@ const RegisterAccountComponent = ({ setCanPay }) => {
           </FormItemStyle>
 
           <FormItemStyle>
-            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
+            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit" onClick={() => handleSignUpUser()}>
               Đăng ký
             </ButtonFormStyle>
           </FormItemStyle>

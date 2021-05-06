@@ -8,6 +8,7 @@ import Header from "components/header";
 import Card from "components/card";
 import Footer from "components/footer";
 import CardText from "components/cardText";
+import { ColStyle } from "screens/style";
 import { sliceText } from "utils/ultils";
 import { getCourseAction, getTeacherAction } from "screens/course/action";
 
@@ -99,9 +100,9 @@ const Home = () => {
 
   const renderCourse = () => {
     let listCourse = allCourse.map((item) => (
-      <Col key={uuidv4()} xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
+      <ColStyle course_home="true" onClick={() => history.push(`/course/${item?.id}`)} key={uuidv4()} xs={24} sm={12} md={8} lg={6} xl={5} xxl={5}>
         <Card type="course" img={item?.photo?.photo || "https://i.imgur.com/0jk1ek2.jpg"} author={item.user} title={item.title} old_price={item?.old_price} new_price={item?.new_price} />
-      </Col>
+      </ColStyle>
     ));
     if (listCourse.length < 1) {
       listCourse = <NoCourseStyle>Không có khóa học nào!</NoCourseStyle>;
