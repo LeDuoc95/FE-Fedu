@@ -8,6 +8,10 @@ const initialState = {
   phone: null,
   position: null,
   email: null,
+  slogan: null,
+  owner_course: null,
+  temporary_user: null,
+  description: null,
 };
 
 export default handleActions(
@@ -21,6 +25,10 @@ export default handleActions(
         phone: payload.phone,
         position: payload.position,
         email: payload.email,
+        slogan: payload.slogan || "",
+        owner_course: payload.owner_course || [],
+        temporary_user: payload.temporary_user || false,
+        description: payload.description || "",
       };
     },
     [logoutAction]: (state) => ({ ...initialState }),

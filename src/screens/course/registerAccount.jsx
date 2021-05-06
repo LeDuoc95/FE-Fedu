@@ -5,7 +5,15 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { signUpAction } from "screens/signUp/action";
 import openNotification from "components/notifination";
-import { InputStyle, FormStyle, FormItemStyle, ButtonFormStyle, InputPasswordStyle, ButtonStyle, TagAStyle } from "screens/style";
+import {
+  InputStyle,
+  FormStyle,
+  FormItemStyle,
+  ButtonFormStyle,
+  InputPasswordStyle,
+  ButtonStyle,
+  TagAStyle,
+} from "screens/style";
 
 import { TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";
@@ -50,7 +58,6 @@ const RegisterAccountComponent = ({ setCanPay }) => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log(`errorInfo`, errorInfo);
     return openNotification({ message: "Gửi yêu cầu thất bại!" });
   };
 
@@ -60,6 +67,10 @@ const RegisterAccountComponent = ({ setCanPay }) => {
 
   const onChangeCheckEmail = (value) => {
     setEmailCheck(value.target.value);
+  };
+
+  const handleSignUpUser = () => {
+    dispatch(actions.signUpAction(form.getFieldsValue()));
   };
 
   const handleCheckEmail = () => {
@@ -86,11 +97,20 @@ const RegisterAccountComponent = ({ setCanPay }) => {
   };
   return (
     <>
-      <FormStyle register_payment="true" form={form} {...layout} name="basic" onFinish={onFinish} onFinishFailed={onFinishFailed}>
+      <FormStyle
+        register_payment="true"
+        form={form}
+        {...layout}
+        name="basic"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
         <FormItemStyle register_acc="true">Thông tin tài khoản</FormItemStyle>
         <FormItemStyle
           hasFeedback
-          validateStatus={emailIsExist === "" ? "" : emailIsExist ? "success" : "error"}
+          validateStatus={
+            emailIsExist === "" ? "" : emailIsExist ? "success" : "error"
+          }
           name="email"
           rules={[
             {
@@ -103,17 +123,38 @@ const RegisterAccountComponent = ({ setCanPay }) => {
             },
           ]}
         >
-          <InputStyle allowClear onChange={onChangeCheckEmail} value={emailCheck} register_payment="true" style={{ width: "100%", maxWidth: "100%" }} placeholder="Vui lòng nhập email của bạn" />
+          <InputStyle
+            allowClear
+            onChange={onChangeCheckEmail}
+            value={emailCheck}
+            register_payment="true"
+            style={{ width: "100%", maxWidth: "100%" }}
+            placeholder="Vui lòng nhập email của bạn"
+          />
         </FormItemStyle>
         <FormItemStyle>
-          <ButtonStyle disabled={!emailCheck && form.getFieldsError().length < 1} onClick={() => handleCheckEmail()}>
+          <ButtonStyle
+            disabled={!emailCheck && form.getFieldsError().length < 1}
+            onClick={() => handleCheckEmail()}
+          >
             Tiếp tục
           </ButtonStyle>
         </FormItemStyle>
       </FormStyle>
       {!emailIsExist && emailIsExist !== "" && (
-        <FormStyle register_payment="true" form={form} {...layout} name="basic" initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
-          <FormItemStyle register_acc="true">Tài khoản của bạn không tồn tại. Vui lòng nhập email và đăng ký tài khoản tại đây</FormItemStyle>
+        <FormStyle
+          register_payment="true"
+          form={form}
+          {...layout}
+          name="basic"
+          initialValues={{}}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <FormItemStyle register_acc="true">
+            Tài khoản của bạn không tồn tại. Vui lòng nhập email và đăng ký tài
+            khoản tại đây
+          </FormItemStyle>
           <FormItemStyle
             name="username"
             rules={[
@@ -155,10 +196,17 @@ const RegisterAccountComponent = ({ setCanPay }) => {
               // },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (value === undefined || value.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g)) {
+                  if (
+                    value === undefined ||
+                    value.match(
+                      /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g
+                    )
+                  ) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error("Không đúng dạng số điện thoại!"));
+                  return Promise.reject(
+                    new Error("Không đúng dạng số điện thoại!")
+                  );
                 },
               }),
             ]}
@@ -175,11 +223,17 @@ const RegisterAccountComponent = ({ setCanPay }) => {
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})");
+                  const strongRegex = new RegExp(
+                    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+                  );
                   if (value.match(strongRegex)) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error("Định dạng mật khẩu không đúng! - Mật khẩu gồm: chữ in hoa, chữ in thường, số, kí tự đặc biệt, dài hơn 7 kí tự và có số"));
+                  return Promise.reject(
+                    new Error(
+                      "Định dạng mật khẩu không đúng! - Mật khẩu gồm: chữ in hoa, chữ in thường, số, kí tự đặc biệt, dài hơn 7 kí tự và có số"
+                    )
+                  );
                 },
               }),
             ]}
@@ -213,25 +267,44 @@ const RegisterAccountComponent = ({ setCanPay }) => {
             name="agreement"
             rules={[
               {
-                validator: (_, value) => (value ? Promise.resolve() : Promise.reject(new Error("Vui lòng chập nhận các điều khoản!"))),
+                validator: (_, value) =>
+                  value
+                    ? Promise.resolve()
+                    : Promise.reject(
+                        new Error("Vui lòng chập nhận các điều khoản!")
+                      ),
               },
             ]}
             valuePropName="checked"
           >
             <Checkbox>
-              Tôi đã đọc và đồng ý với <TagAStyle onClick={() => history.push("/terms-of-use")}>Điều khoản sử dụng</TagAStyle> và <TagAStyle onClick={() => history.push("/privacy-policy")}>Chính sách bảo mật</TagAStyle>{" "}
+              Tôi đã đọc và đồng ý với{" "}
+              <TagAStyle onClick={() => history.push("/terms-of-use")}>
+                Điều khoản sử dụng
+              </TagAStyle>{" "}
+              và{" "}
+              <TagAStyle onClick={() => history.push("/privacy-policy")}>
+                Chính sách bảo mật
+              </TagAStyle>{" "}
             </Checkbox>
           </FormItemStyle>
 
           <FormItemStyle>
-            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
+            <ButtonFormStyle
+              submit_login="true"
+              type="primary"
+              htmlType="submit"
+              onClick={() => handleSignUpUser()}
+            >
               Đăng ký
             </ButtonFormStyle>
           </FormItemStyle>
         </FormStyle>
       )}
       <FormStyle register_payment="true" form={form} {...layout} name="basic">
-        <FormItemStyle register_acc="true">Phương thức thanh toán</FormItemStyle>
+        <FormItemStyle register_acc="true">
+          Phương thức thanh toán
+        </FormItemStyle>
         <FormItemStyle name="payment">
           <Radio defaultChecked="true">Thanh toán qua Momo</Radio>
         </FormItemStyle>

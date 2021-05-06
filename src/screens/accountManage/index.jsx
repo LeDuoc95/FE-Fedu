@@ -13,7 +13,16 @@ import openNotification from "components/notifination";
 import { TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";
 
-import { WrapperPage, WarrapperForm, TitleContentHome, InputStyle, FormStyle, FormItemStyle, ButtonFormStyle, RowStyle } from "screens/style";
+import {
+  WrapperPage,
+  WarrapperForm,
+  TitleContentHome,
+  InputStyle,
+  FormStyle,
+  FormItemStyle,
+  ButtonFormStyle,
+  RowStyle,
+} from "screens/style";
 
 const layout = {
   labelCol: {
@@ -41,13 +50,14 @@ const AccountManage = () => {
         uid: infoUser.photo.id || "",
         name: "image.png",
         status: "done",
-        url: `${API_URL}` + "media/" + `${infoUser.photo.path}`,
+        url: `${API_URL}media/${infoUser.photo.path}`,
       });
     }
     return avatar;
   });
 
   const actions = { changeAccountAction };
+  const { photo, position, temporary_user } = infoUser;
 
   useEffect(() => {
     if (location.pathname === "/account-manage") {
@@ -57,7 +67,7 @@ const AccountManage = () => {
           uid: infoUser.photo.id || "",
           name: "image.png",
           status: "done",
-          url: `${API_URL}` + "media/" + `${infoUser.photo.path}`,
+          url: `${API_URL}media/${infoUser?.photo?.path}`,
         });
       }
       setListFile(avatar);
@@ -111,13 +121,12 @@ const AccountManage = () => {
               uid: res.body.id,
               name: "image.png",
               status: "done",
-              url: `${API_URL}` + "media/" + `${res.body.photo}`,
+              url: `${API_URL}media/${res.body.photo}`,
             },
           ]);
           return;
         })
         .catch(function (error) {
-          console.log("Request failed", error);
           return openNotification({ message: "Request failed!" });
         });
     }
@@ -144,20 +153,11 @@ const AccountManage = () => {
         >
           <RowStyle account_manage="true">
             <Col style={{ textAlign: "center" }} span="8">
-              <FormItemStyle
-                name="photo"
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Vui lòng nhập tên đăng nhập",
-                //   },
-                // ]}
-              >
+              <FormItemStyle name="photo">
                 <Upload
                   listType="picture-card"
                   fileList={listFile}
                   customRequest={({ onSuccess }) => onSuccess("ok")}
-                  // onPreview={handlePreview}
                   onChange={handleChange}
                 >
                   {listFile.length >= 1 ? null : uploadButton}
@@ -188,7 +188,7 @@ const AccountManage = () => {
                 //   },
                 // ]}
               >
-                <InputStyle placeholder="Vui lòng nhập họ và tên*" />
+                <InputStyle placeholder="Vui lòng nhập họ và tên" />
               </FormItemStyle>
 
               <FormItemStyle
@@ -218,21 +218,43 @@ const AccountManage = () => {
                   // },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (value === "" || value.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g)) {
+                      if (
+                        value === "" ||
+                        value.match(
+                          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g
+                        )
+                      ) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error("Không đúng dạng số điện thoại!"));
+                      return Promise.reject(
+                        new Error("Không đúng dạng số điện thoại!")
+                      );
                     },
                   }),
                 ]}
               >
                 <InputStyle placeholder="Vui lòng nhập số điện thoại 11 số" />
               </FormItemStyle>
+              {!temporary_user && position === 2 && (
+                <FormItemStyle label="slogan" name="slogan">
+                  <InputStyle placeholder="Vui lòng nhập slogan cho bạn" />
+                </FormItemStyle>
+              )}
+
+              {!temporary_user && position === 2 && (
+                <FormItemStyle label="description" name="description">
+                  <InputStyle placeholder="Vui lòng mô tả về bạn" />
+                </FormItemStyle>
+              )}
             </Col>
           </RowStyle>
 
           <FormItemStyle>
-            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
+            <ButtonFormStyle
+              submit_login="true"
+              type="primary"
+              htmlType="submit"
+            >
               Cập nhật tài khoản
             </ButtonFormStyle>
           </FormItemStyle>
