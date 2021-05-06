@@ -501,6 +501,12 @@ export const ContentStyle = styled.div`
 
 export const ColStyle = styled(Col)`
   ${(props) =>
+    props.course_home &&
+    css`
+      cursor: pointer;
+    `}
+
+  ${(props) =>
     props.course_table_content &&
     css`
       overflow-y: auto;

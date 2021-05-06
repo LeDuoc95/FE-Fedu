@@ -41,13 +41,14 @@ const AccountManage = () => {
         uid: infoUser.photo.id || "",
         name: "image.png",
         status: "done",
-        url: `${API_URL}` + "media/" + `${infoUser.photo.path}`,
+        url: `${API_URL}media/${infoUser.photo.path}`,
       });
     }
     return avatar;
   });
 
   const actions = { changeAccountAction };
+  const { photo, position, temporary_user } = infoUser;
 
   useEffect(() => {
     if (location.pathname === "/account-manage") {
@@ -57,7 +58,7 @@ const AccountManage = () => {
           uid: infoUser.photo.id || "",
           name: "image.png",
           status: "done",
-          url: `${API_URL}` + "media/" + `${infoUser.photo.path}`,
+          url: `${API_URL}media/${infoUser?.photo?.path}`,
         });
       }
       setListFile(avatar);
@@ -111,7 +112,7 @@ const AccountManage = () => {
               uid: res.body.id,
               name: "image.png",
               status: "done",
-              url: `${API_URL}` + "media/" + `${res.body.photo}`,
+              url: `${API_URL}media/${res.body.photo}`,
             },
           ]);
           return;
@@ -144,22 +145,8 @@ const AccountManage = () => {
         >
           <RowStyle account_manage="true">
             <Col style={{ textAlign: "center" }} span="8">
-              <FormItemStyle
-                name="photo"
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Vui lòng nhập tên đăng nhập",
-                //   },
-                // ]}
-              >
-                <Upload
-                  listType="picture-card"
-                  fileList={listFile}
-                  customRequest={({ onSuccess }) => onSuccess("ok")}
-                  // onPreview={handlePreview}
-                  onChange={handleChange}
-                >
+              <FormItemStyle name="photo">
+                <Upload listType="picture-card" fileList={listFile} customRequest={({ onSuccess }) => onSuccess("ok")} onChange={handleChange}>
                   {listFile.length >= 1 ? null : uploadButton}
                 </Upload>
               </FormItemStyle>
@@ -188,7 +175,7 @@ const AccountManage = () => {
                 //   },
                 // ]}
               >
-                <InputStyle placeholder="Vui lòng nhập họ và tên*" />
+                <InputStyle placeholder="Vui lòng nhập họ và tên" />
               </FormItemStyle>
 
               <FormItemStyle
@@ -228,6 +215,17 @@ const AccountManage = () => {
               >
                 <InputStyle placeholder="Vui lòng nhập số điện thoại 11 số" />
               </FormItemStyle>
+              {!temporary_user && position === 2 && (
+                <FormItemStyle label="slogan" name="slogan">
+                  <InputStyle placeholder="Vui lòng nhập slogan cho bạn" />
+                </FormItemStyle>
+              )}
+
+              {!temporary_user && position === 2 && (
+                <FormItemStyle label="description" name="description">
+                  <InputStyle placeholder="Vui lòng mô tả về bạn" />
+                </FormItemStyle>
+              )}
             </Col>
           </RowStyle>
 

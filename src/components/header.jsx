@@ -20,6 +20,9 @@ const Header = ({ type }) => {
   const [current, setCurrent] = useState("course");
   const userName = useSelector((state) => state.login.username);
   const photo = useSelector((state) => state.login.photo);
+  const infoUser = useSelector((state) => state.login);
+
+  const { position } = infoUser;
 
   const handleClick = (e) => {
     setCurrent(e.key);
@@ -74,9 +77,16 @@ const Header = ({ type }) => {
           <MenuItemStyleForHeader key="course">
             <Link to="/course">Khóa học</Link>
           </MenuItemStyleForHeader>
-          <MenuItemStyleForHeader key="create-course">
-            <Link to="/course/create">Tạo khóa học</Link>
-          </MenuItemStyleForHeader>
+          {(position === 1 || position === 0) && (
+            <MenuItemStyleForHeader key="create-course">
+              <Link to="/course/create">Tạo khóa học</Link>
+            </MenuItemStyleForHeader>
+          )}
+          {position === 0 && (
+            <MenuItemStyleForHeader key="browser-user-course">
+              <Link to="/browser">Duyệt người dùng và khóa học</Link>
+            </MenuItemStyleForHeader>
+          )}
           <MenuItemStyleForHeader key="active-course">
             <Link to="/activate">Kích hoạt khóa học</Link>
           </MenuItemStyleForHeader>
@@ -86,7 +96,7 @@ const Header = ({ type }) => {
             ) : (
               <Dropdown overlay={menu} trigger={["click"]}>
                 <AccountStyle className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-                  <AvatarStyle src={`${API_URL}` + "media/" + `${photo?.path}` || "https://i.imgur.com/nexvWcY.jpg"} alt="avatar" />
+                  <AvatarStyle src={`${API_URL}media/${photo?.path}` || "https://i.imgur.com/nexvWcY.jpg"} alt="avatar" />
                   <span>{userName}</span>
                 </AccountStyle>
               </Dropdown>

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Col, Form, notification, Tag, message, Modal, Input } from "antd";
 import { useLastLocation } from "react-router-last-location";
 import { useHistory } from "react-router-dom";
-import { LoadingOutlined, PlusOutlined, ExclamationCircleOutlined, CheckCircleOutlined, CarryOutOutlined, PlusCircleTwoTone, VideoCameraTwoTone, PlayCircleTwoTone } from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined, ExclamationCircleOutlined, CheckCircleOutlined, PlusCircleTwoTone, VideoCameraTwoTone, PlayCircleTwoTone } from "@ant-design/icons";
 
 import { errorAction } from "components/action";
 import Header from "components/header";
@@ -36,48 +36,6 @@ const layout = {
   },
 };
 
-const treeData = [
-  {
-    title: "parent 1",
-    key: "0",
-    parent: true,
-    children: [
-      // {
-      //   title: "parent 1-0",
-      //   key: "0-0",
-      //   path: "",
-      //   uid: "",
-      // },
-      {
-        id: 53,
-        key: "0-0",
-        path: "upload_path/Day_of_the_Dead_Vocab_OaVQEJg.mp3",
-        title: "name",
-        uid: "45eb449e-227c-4ab6-8839-faf4035b194b",
-      },
-      // {
-      //   title: "parent 1-2",
-      //   key: "0-0-2",
-      //   path: "",
-      //   uid: "",
-      // },
-    ],
-  },
-  {
-    title: "parent 2",
-    key: "1",
-    icon: <CarryOutOutlined />,
-    parent: true,
-    children: [
-      {
-        title: "parent 2-0",
-        key: "1-0",
-        icon: <CarryOutOutlined />,
-      },
-    ],
-  },
-];
-
 const UploadCourseurse = (props) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -92,6 +50,7 @@ const UploadCourseurse = (props) => {
   const desError = useSelector((state) => state.common.error.description);
   const typeError = useSelector((state) => state.common.error.type);
 
+  const infoUser = useSelector((state) => state.login);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [updateTitle, setUpdateTitle] = useState(false);
@@ -99,6 +58,8 @@ const UploadCourseurse = (props) => {
   const [listVideo, setListVideo] = useState([]);
   const [positionSelected, setPositionSelected] = useState(0);
   const [listFile, setListFile] = useState([]);
+
+  const { username, position } = infoUser;
 
   const actions = {
     errorAction,
@@ -109,6 +70,13 @@ const UploadCourseurse = (props) => {
     deleteCourseAction,
     getDetailCourseAction,
   };
+
+  useEffect(() => {
+    if ((!id && !authorization) || (!id && username && (position === null || position === 2))) {
+      // openNotification({ message: "Bạn không có quyền vào trang này!" });
+      history.push("/page-not-found");
+    }
+  }, [infoUser, param]);
 
   useEffect(() => {
     if (!id && lastLocation) {
@@ -333,12 +301,16 @@ const UploadCourseurse = (props) => {
         <ParentStyle>
           {item.title}
           <div>
-            <ButtonFormStyle add_children_row="true" type="primary" onClick={(event) => addChildrenRow(event, parseInt(key))} disabled={!isAddChildrenRow}>
-              Add children row
-            </ButtonFormStyle>
-            <ButtonFormStyle type="danger" remove_children_row="true" onClick={(event) => removeChildrenRow(event, parseInt(key))} disabled={!isRemoveChildrenRow}>
-              Remove children row
-            </ButtonFormStyle>
+            {position && position !== 2 && (
+              <ButtonFormStyle add_children_row="true" type="primary" onClick={(event) => addChildrenRow(event, parseInt(key))} disabled={!isAddChildrenRow}>
+                Add children row
+              </ButtonFormStyle>
+            )}
+            {position && position !== 2 && (
+              <ButtonFormStyle type="danger" remove_children_row="true" onClick={(event) => removeChildrenRow(event, parseInt(key))} disabled={!isRemoveChildrenRow}>
+                Remove children row
+              </ButtonFormStyle>
+            )}
           </div>
         </ParentStyle>
       );
@@ -511,62 +483,74 @@ const UploadCourseurse = (props) => {
                 <b>Video khóa học</b>
               </TitleStyle>
 
-              <ButtonFormStyle add_row="true" type="primary" onClick={() => setIsModalVisible(true)}>
-                Add row
-              </ButtonFormStyle>
-              <ButtonFormStyle
-                remove_row="true"
-                type="danger"
-                onClick={() =>
-                  ComfirmComponent({
-                    content: "",
-                    onOk: setListVideo,
-                    data: listVideo,
-                    type: "set_list_video",
-                  })
-                }
-              >
-                Remove row
-              </ButtonFormStyle>
+              {position && position !== 2 && (
+                <ButtonFormStyle add_row="true" type="primary" onClick={() => setIsModalVisible(true)}>
+                  Add row
+                </ButtonFormStyle>
+              )}
+              {position && position !== 2 && (
+                <ButtonFormStyle
+                  remove_row="true"
+                  type="danger"
+                  onClick={() =>
+                    ComfirmComponent({
+                      content: "",
+                      onOk: setListVideo,
+                      data: listVideo,
+                      type: "set_list_video",
+                    })
+                  }
+                >
+                  Remove row
+                </ButtonFormStyle>
+              )}
 
               <TreeCourseStyle className="ahihi" defaultExpandedKeys={["0"]} treeData={listVideo} onSelect={onSelect} titleRender={titleRender} />
             </Col>
           </RowStyle>
 
-          <FormItemStyle>
-            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
-              {currentCourse.id && id ? "Cập nhật khóa học" : "Tạo mới khóa học"}
-            </ButtonFormStyle>
-          </FormItemStyle>
+          {position === 1 && (
+            <FormItemStyle>
+              <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
+                {currentCourse.id && id ? "Cập nhật khóa học" : "Tạo mới khóa học"}
+              </ButtonFormStyle>
+            </FormItemStyle>
+          )}
 
-          <FormItemStyle>
-            <ButtonFormStyle
-              submit_login="true"
-              type="danger"
-              onClick={() =>
-                ComfirmComponent({
-                  content: "",
-                  onOk: handleDeleteCourse,
-                  data: { id },
-                })
-              }
-            >
-              {id && "Xóa khóa học"}
-            </ButtonFormStyle>
-          </FormItemStyle>
+          {(position === 1 || position === 0) && (
+            <FormItemStyle>
+              <ButtonFormStyle
+                submit_login="true"
+                type="danger"
+                onClick={() =>
+                  ComfirmComponent({
+                    content: "",
+                    onOk: handleDeleteCourse,
+                    data: { id },
+                  })
+                }
+              >
+                {id && "Xóa khóa học"}
+              </ButtonFormStyle>
+            </FormItemStyle>
+          )}
 
-          <FormItemStyle>
-            <ColStyle span="24">
-              <AuthorComponent user={currentCourse?.user} />
-            </ColStyle>
-          </FormItemStyle>
+          {id && (
+            <FormItemStyle>
+              <ColStyle span="24">
+                <AuthorComponent user={currentCourse?.user} />
+              </ColStyle>
+            </FormItemStyle>
+          )}
 
-          <FormItemStyle>
-            <h2>Đăng ký khóa học</h2>
-            <ColStyle payer="true" span="24">
-              <PaymentComponent course={currentCourse} />
-            </ColStyle>
-          </FormItemStyle>
+          {id && (
+            <FormItemStyle>
+              <h2>Đăng ký khóa học</h2>
+              <ColStyle payer="true" span="24">
+                <PaymentComponent course={currentCourse} />
+              </ColStyle>
+            </FormItemStyle>
+          )}
         </FormStyle>
       </WarrapperForm>
 
