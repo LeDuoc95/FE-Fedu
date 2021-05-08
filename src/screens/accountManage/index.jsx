@@ -13,7 +13,16 @@ import openNotification from "components/notifination";
 import { TOKEN_KEY_BE } from "utils/constant";
 import localStorage from "utils/localStorage";
 
-import { WrapperPage, WarrapperForm, TitleContentHome, InputStyle, FormStyle, FormItemStyle, ButtonFormStyle, RowStyle } from "screens/style";
+import {
+  WrapperPage,
+  WarrapperForm,
+  TitleContentHome,
+  InputStyle,
+  FormStyle,
+  FormItemStyle,
+  ButtonFormStyle,
+  RowStyle,
+} from "screens/style";
 
 const layout = {
   labelCol: {
@@ -118,7 +127,6 @@ const AccountManage = () => {
           return;
         })
         .catch(function (error) {
-          console.log("Request failed", error);
           return openNotification({ message: "Request failed!" });
         });
     }
@@ -146,7 +154,12 @@ const AccountManage = () => {
           <RowStyle account_manage="true">
             <Col style={{ textAlign: "center" }} span="8">
               <FormItemStyle name="photo">
-                <Upload listType="picture-card" fileList={listFile} customRequest={({ onSuccess }) => onSuccess("ok")} onChange={handleChange}>
+                <Upload
+                  listType="picture-card"
+                  fileList={listFile}
+                  customRequest={({ onSuccess }) => onSuccess("ok")}
+                  onChange={handleChange}
+                >
                   {listFile.length >= 1 ? null : uploadButton}
                 </Upload>
               </FormItemStyle>
@@ -205,10 +218,17 @@ const AccountManage = () => {
                   // },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (value === "" || value.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g)) {
+                      if (
+                        value === "" ||
+                        value.match(
+                          /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g
+                        )
+                      ) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error("Không đúng dạng số điện thoại!"));
+                      return Promise.reject(
+                        new Error("Không đúng dạng số điện thoại!")
+                      );
                     },
                   }),
                 ]}
@@ -230,7 +250,11 @@ const AccountManage = () => {
           </RowStyle>
 
           <FormItemStyle>
-            <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
+            <ButtonFormStyle
+              submit_login="true"
+              type="primary"
+              htmlType="submit"
+            >
               Cập nhật tài khoản
             </ButtonFormStyle>
           </FormItemStyle>

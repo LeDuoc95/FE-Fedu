@@ -2,19 +2,42 @@ import React from "react";
 import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
-const ComfirmComponent = ({ content, onCancel, data, onOk, type }) => {
+const ComfirmComponent = ({
+  title,
+  content,
+  onCancel,
+  data,
+  onOk,
+  type,
+  okText,
+}) => {
   let new_data = data;
   if (type === "set_list_video") {
     new_data = [...data];
     new_data.pop();
   }
+
+  const handleActionOk = (data) => {
+    if (type === "use_temporary") {
+      onOk({ type: "use_temporary", id: data });
+      return false;
+    }
+
+    if (type === "course_temporary") {
+      onOk({ type: "course_temporary", id: data });
+      return false;
+    }
+
+    return onOk(new_data);
+  };
+
   return Modal.confirm({
-    title: "Xác nhận xóa",
+    title: `${title}` || "Xác nhận xóa",
     icon: <ExclamationCircleOutlined />,
     content: `${content || "Có phải bạn muốn xóa item này?"}`,
-    okText: "Xóa",
+    okText: `${okText}` || "Xóa",
     cancelText: "Hủy",
-    onOk: () => onOk(new_data),
+    onOk: () => handleActionOk(new_data),
   });
 };
 

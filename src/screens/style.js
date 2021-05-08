@@ -1,5 +1,15 @@
 import styled, { css } from "styled-components";
-import { Row, Button, Input, Form, Pagination, Col, Upload, Select, Tree } from "antd";
+import {
+  Row,
+  Button,
+  Input,
+  Form,
+  Pagination,
+  Col,
+  Upload,
+  Select,
+  Tree,
+} from "antd";
 import { BoxShawdow, DarkColor } from "components/constants";
 
 export const WrapperPage = styled.div`
@@ -25,13 +35,19 @@ export const WrapperPage = styled.div`
     `};
 
   ${(props) =>
-    (props.login || props.payment) &&
+    (props.login || props.payment || props.admin_browser) &&
     css`
       min-height: 100vh;
       align-items: center;
       width: 100%;
       background: ${(props) => (props.bg ? props.bg : "white")};
     `}
+
+  ${(props) =>
+    props.browser &&
+    css`
+      /* flex-direction: row; */
+    `};
 `;
 
 export const TitleContentHome = styled.div`
@@ -42,6 +58,7 @@ export const TitleContentHome = styled.div`
 `;
 
 export const RowStyle = styled(Row)`
+  width: ${(props) => (props.width ? props.width : "unset")};
   ${(props) =>
     props.input_detail_bill &&
     css`
@@ -123,11 +140,16 @@ export const RowStyle = styled(Row)`
 
 export const ImageCommonStyle = styled.img`
   ${(props) =>
-    (props.home || props.detail_bill) &&
+    (props.home || props.detail_bill || props.admin_browser) &&
     css`
       width: ${(props) => (props.width ? props.width : "100vw")};
       height: ${(props) => (props.height ? props.height : "100vh")};
-    `}/* ${(props) => props.detail_bill && css``} */
+    `}
+  ${(props) =>
+    props.admin_browser &&
+    css`
+      border-radius: 10px;
+    `}
 `;
 
 export const ButtonUploadVideo = styled(Button)`
@@ -336,7 +358,10 @@ export const ButtonFormStyle = styled(Button)`
     `};
 
   ${(props) =>
-    (props.add_row || props.remove_row || props.add_children_row || props.remove_children_row) &&
+    (props.add_row ||
+      props.remove_row ||
+      props.add_children_row ||
+      props.remove_children_row) &&
     css`
       border-radius: 5px;
       margin: 10px 10px 10px 0;
@@ -487,6 +512,12 @@ export const ContentStyle = styled.div`
     `};
 
   ${(props) =>
+    props.admin_browser &&
+    css`
+      width: 100%;
+    `};
+
+  ${(props) =>
     props.payment &&
     css`
       margin-top: 15px;
@@ -546,6 +577,13 @@ export const ColStyle = styled(Col)`
       min-height: 150px;
       display: flex;
     `}
+
+  ${(props) =>
+    props.admin_browser &&
+    css`
+      width: 100%;
+      min-height: 62vh;
+    `}
 `;
 
 export const UploadVideoCourseStyle = styled(Upload)`
@@ -578,6 +616,13 @@ export const TitleStyle = styled.div`
       text-align: start;
       margin: 10px 0;
       font-weight: 600;
+    `}
+
+  ${(props) =>
+    props.admin_browser &&
+    css`
+      font-weight: 700;
+      font-size: 20px;
     `}
 `;
 
@@ -631,6 +676,49 @@ export const SpanStyle = styled.span`
       border: 2px solid black;
       border-radius: 50%;
       padding: 2px 8px;
+    `}
+
+  ${(props) =>
+    (props.paying || props.payment_finish) &&
+    css`
+      margin-right: 4px;
+      border: 2px solid black;
+      border-radius: 50%;
+      padding: 2px 8px;
+    `}
+
+  ${(props) =>
+    props.user_username &&
+    css`
+      flex-grow: 1;
+      overflow-x: hidden;
+    `}
+
+    ${(props) =>
+    props.user_email &&
+    css`
+      flex-grow: 1;
+      overflow-x: hidden;
+    `}
+
+    ${(props) =>
+    props.user_name &&
+    css`
+      flex-grow: 1;
+      overflow-x: hidden;
+    `}
+
+    ${(props) =>
+    props.course_username &&
+    css`
+      flex-grow: 1;
+      overflow-x: hidden;
+    `}  
+    ${(props) =>
+    props.course_user_email &&
+    css`
+      flex-grow: 1;
+      overflow-x: hidden;
     `}
 `;
 
@@ -712,4 +800,22 @@ export const ImplementPaymentStyle = styled.div`
   align-items: center;
   flex-direction: column;
   margin: 20px 0;
+`;
+
+export const TagDivStyle = styled.div`
+  ${(props) =>
+    props.admin_browser &&
+    css`
+      display: flex;
+      width: 100%;
+      justify-content: space-evenly;
+      height: 50px;
+      align-items: center;
+      background: #daecf2;
+      border: 1px solid #d9d9d9;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      padding: 2px;
+      text-align: center;
+    `}
 `;

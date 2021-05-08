@@ -5,7 +5,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { Col, Form, notification, Tag, message, Modal, Input } from "antd";
 import { useLastLocation } from "react-router-last-location";
 import { useHistory } from "react-router-dom";
-import { LoadingOutlined, PlusOutlined, ExclamationCircleOutlined, CheckCircleOutlined, PlusCircleTwoTone, VideoCameraTwoTone, PlayCircleTwoTone } from "@ant-design/icons";
+import {
+  LoadingOutlined,
+  PlusOutlined,
+  ExclamationCircleOutlined,
+  CheckCircleOutlined,
+  PlusCircleTwoTone,
+  VideoCameraTwoTone,
+  PlayCircleTwoTone,
+} from "@ant-design/icons";
 
 import { errorAction } from "components/action";
 import Header from "components/header";
@@ -17,12 +25,36 @@ import PaymentComponent from "screens/course/payer";
 import { changeAccountAction } from "screens/accountManage/action";
 import openNotification from "components/notifination";
 
-import { getCourseAction, createCourseAction, updateCourseAction, deleteCourseAction, getDetailCourseAction } from "screens/course/action";
+import {
+  getCourseAction,
+  createCourseAction,
+  updateCourseAction,
+  deleteCourseAction,
+  getDetailCourseAction,
+} from "screens/course/action";
 
 import { TOKEN_KEY_BE, TYPE_COURSE_OPTION } from "utils/constant";
 import localStorage from "utils/localStorage";
 
-import { WrapperPage, WarrapperForm, TitleContentHome, InputStyle, FormStyle, FormItemStyle, ButtonFormStyle, RowStyle, ColStyle, FormItemCourseStyle, UploadImageCourse, SelectStyle, UploadVideoCourseStyle, TreeCourseStyle, TitleStyle, ParentStyle, ButtonUploadVideo } from "screens/style";
+import {
+  WrapperPage,
+  WarrapperForm,
+  TitleContentHome,
+  InputStyle,
+  FormStyle,
+  FormItemStyle,
+  ButtonFormStyle,
+  RowStyle,
+  ColStyle,
+  FormItemCourseStyle,
+  UploadImageCourse,
+  SelectStyle,
+  UploadVideoCourseStyle,
+  TreeCourseStyle,
+  TitleStyle,
+  ParentStyle,
+  ButtonUploadVideo,
+} from "screens/style";
 
 const API_URL = process.env.REACT_APP_HOST;
 const authorization = localStorage.getToken(TOKEN_KEY_BE);
@@ -72,7 +104,10 @@ const UploadCourseurse = (props) => {
   };
 
   useEffect(() => {
-    if ((!id && !authorization) || (!id && username && (position === null || position === 2))) {
+    if (
+      (!id && !authorization) ||
+      (!id && username && (position === null || position === 2))
+    ) {
       // openNotification({ message: "Bạn không có quyền vào trang này!" });
       history.push("/page-not-found");
     }
@@ -100,9 +135,20 @@ const UploadCourseurse = (props) => {
         message: mesError,
         description: desError,
         duration: 2,
-        icon: typeError === "error" ? <ExclamationCircleOutlined style={{ color: "#fc4848" }} /> : <CheckCircleOutlined style={{ color: "#fc4848" }} />,
-        onClick: () => dispatch(actions.errorAction({ message: "", description: "", type: "" })),
-        onClose: () => dispatch(actions.errorAction({ message: "", description: "", type: "" })),
+        icon:
+          typeError === "error" ? (
+            <ExclamationCircleOutlined style={{ color: "#fc4848" }} />
+          ) : (
+            <CheckCircleOutlined style={{ color: "#fc4848" }} />
+          ),
+        onClick: () =>
+          dispatch(
+            actions.errorAction({ message: "", description: "", type: "" })
+          ),
+        onClose: () =>
+          dispatch(
+            actions.errorAction({ message: "", description: "", type: "" })
+          ),
       });
     }
   }, [mesError]);
@@ -164,7 +210,6 @@ const UploadCourseurse = (props) => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log(`errorInfo`, errorInfo);
     return openNotification({ message: "Yêu cầu thất bại!" });
   };
 
@@ -302,12 +347,22 @@ const UploadCourseurse = (props) => {
           {item.title}
           <div>
             {position && position !== 2 && (
-              <ButtonFormStyle add_children_row="true" type="primary" onClick={(event) => addChildrenRow(event, parseInt(key))} disabled={!isAddChildrenRow}>
+              <ButtonFormStyle
+                add_children_row="true"
+                type="primary"
+                onClick={(event) => addChildrenRow(event, parseInt(key))}
+                disabled={!isAddChildrenRow}
+              >
                 Add children row
               </ButtonFormStyle>
             )}
             {position && position !== 2 && (
-              <ButtonFormStyle type="danger" remove_children_row="true" onClick={(event) => removeChildrenRow(event, parseInt(key))} disabled={!isRemoveChildrenRow}>
+              <ButtonFormStyle
+                type="danger"
+                remove_children_row="true"
+                onClick={(event) => removeChildrenRow(event, parseInt(key))}
+                disabled={!isRemoveChildrenRow}
+              >
                 Remove children row
               </ButtonFormStyle>
             )}
@@ -325,7 +380,12 @@ const UploadCourseurse = (props) => {
           <ColStyle span="22" name_video="true">
             {item.title}
           </ColStyle>
-          <ColStyle row_children="true" span="1" font_size="28px" onClick={(event) => watchingVideo(event, path)}>
+          <ColStyle
+            row_children="true"
+            span="1"
+            font_size="28px"
+            onClick={(event) => watchingVideo(event, path)}
+          >
             <PlayCircleTwoTone />
           </ColStyle>
         </RowStyle>
@@ -334,7 +394,10 @@ const UploadCourseurse = (props) => {
 
     return (
       <UploadVideoCourseStyle {...uploadVideo}>
-        <ButtonUploadVideo upload_video_course="true" icon={<PlusCircleTwoTone />}>
+        <ButtonUploadVideo
+          upload_video_course="true"
+          icon={<PlusCircleTwoTone />}
+        >
           Upload Video
         </ButtonUploadVideo>
       </UploadVideoCourseStyle>
@@ -396,9 +459,22 @@ const UploadCourseurse = (props) => {
       <Header />
       <WarrapperForm course_upload="true">
         <TitleContentHome>{"Thông tin về khóa học"}</TitleContentHome>
-        <FormStyle course_upload="true" form={form} {...layout} name="basic" initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+        <FormStyle
+          course_upload="true"
+          form={form}
+          {...layout}
+          name="basic"
+          initialValues={{}}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
           <FormItemCourseStyle name="photo">
-            <UploadImageCourse listType="picture-card" fileList={listFile} customRequest={({ onSuccess }) => onSuccess("ok")} onChange={handleChange}>
+            <UploadImageCourse
+              listType="picture-card"
+              fileList={listFile}
+              customRequest={({ onSuccess }) => onSuccess("ok")}
+              onChange={handleChange}
+            >
               {listFile.length >= 1 ? null : uploadButton}
             </UploadImageCourse>
           </FormItemCourseStyle>
@@ -445,14 +521,19 @@ const UploadCourseurse = (props) => {
                   ({ getFieldValue }) => ({
                     validator(_, value) {
                       if (value && !Number.isInteger(Number(value))) {
-                        return Promise.reject(new Error("Chưa đúng định dạng!"));
+                        return Promise.reject(
+                          new Error("Chưa đúng định dạng!")
+                        );
                       }
                       return Promise.resolve();
                     },
                   }),
                 ]}
               >
-                <InputStyle type="number" placeholder="Vui lòng nhập giá bán của khóa học" />
+                <InputStyle
+                  type="number"
+                  placeholder="Vui lòng nhập giá bán của khóa học"
+                />
               </FormItemStyle>
               <FormItemStyle
                 label="Loại"
@@ -484,7 +565,11 @@ const UploadCourseurse = (props) => {
               </TitleStyle>
 
               {position && position !== 2 && (
-                <ButtonFormStyle add_row="true" type="primary" onClick={() => setIsModalVisible(true)}>
+                <ButtonFormStyle
+                  add_row="true"
+                  type="primary"
+                  onClick={() => setIsModalVisible(true)}
+                >
                   Add row
                 </ButtonFormStyle>
               )}
@@ -505,14 +590,26 @@ const UploadCourseurse = (props) => {
                 </ButtonFormStyle>
               )}
 
-              <TreeCourseStyle className="ahihi" defaultExpandedKeys={["0"]} treeData={listVideo} onSelect={onSelect} titleRender={titleRender} />
+              <TreeCourseStyle
+                className="ahihi"
+                defaultExpandedKeys={["0"]}
+                treeData={listVideo}
+                onSelect={onSelect}
+                titleRender={titleRender}
+              />
             </Col>
           </RowStyle>
 
           {position === 1 && (
             <FormItemStyle>
-              <ButtonFormStyle submit_login="true" type="primary" htmlType="submit">
-                {currentCourse.id && id ? "Cập nhật khóa học" : "Tạo mới khóa học"}
+              <ButtonFormStyle
+                submit_login="true"
+                type="primary"
+                htmlType="submit"
+              >
+                {currentCourse.id && id
+                  ? "Cập nhật khóa học"
+                  : "Tạo mới khóa học"}
               </ButtonFormStyle>
             </FormItemStyle>
           )}
@@ -555,7 +652,12 @@ const UploadCourseurse = (props) => {
       </WarrapperForm>
 
       <Footer />
-      <Modal title={updateTitle ? "Cập nhật tiêu đề" : "Tạo mới tiêu đề"} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal
+        title={updateTitle ? "Cập nhật tiêu đề" : "Tạo mới tiêu đề"}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
         <Input onChange={handleChangeTitle} value={newTitle} />
       </Modal>
     </WrapperPage>
